@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Partner Workstation — Stackly Electronics</title>
+<meta name="description" content="Stackly B2B Business Partner Workstation and Performance Dashboard.">
+
+<!-- Bootstrap 5 & Font Awesome 6 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/stackly.css">
+
+<style>
+/* ==========================================================================
+   B2B Business Partner Workstation - Reference Implementation
+   Exact layout, styling, cards, typography, alignment & colors
+   ========================================================================== */
+
+:root {
+  --b2b-sidebar-bg: #0f1012;
+  --b2b-sidebar-text: #9ca3af;
+  --b2b-topbar-bg: #0f1012;
+  --b2b-canvas-bg: #f3f2ee;
+  --b2b-card-bg: #ffffff;
+  --b2b-text-dark: #0f1012;
+  --b2b-text-muted: #6b6e75;
+  --b2b-volt: #d4ff2e;
+  --b2b-volt-deep: #a3cf08;
+  --b2b-ink: #0f1012;
+  --b2b-ink-2: #17181b;
+  --b2b-gold: #f59e0b;
+}
+
+body.b2b-body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--b2b-sidebar-bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--b2b-text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Layout Container */
+.b2b-app {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--b2b-sidebar-bg);
+}
+
+/* --------------------------------------------------
+   LEFT SIDEBAR
+   -------------------------------------------------- */
+.b2b-sidebar {
+  width: 250px;
+  min-width: 250px;
+  background-color: var(--b2b-sidebar-bg);
+  color: var(--b2b-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+  border-right: 1px solid rgba(243, 242, 238, 0.06);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.b2b-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.b2b-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(212, 255, 46, 0.2);
+  border-radius: 4px;
+}
+
+/* Sidebar Brand Header */
+.b2b-brand-box {
+  padding: 24px 22px 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.b2b-brand-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
+.b2b-brand-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Sidebar Navigation */
+.b2b-nav {
+  list-style: none;
+  padding: 10px 14px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-grow: 1;
+}
+
+.b2b-nav-item {
+  width: 100%;
+}
+
+.b2b-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 18px;
+  border-radius: 14px;
+  color: #8f94a1;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: all 0.25s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.b2b-nav-link i {
+  font-size: 1.1rem;
+  width: 22px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.b2b-nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.b2b-nav-link:hover i {
+  transform: scale(1.1);
+  color: var(--b2b-volt);
+}
+
+/* Active Dashboard Item - Signature Volt Green Pill */
+.b2b-nav-link.active {
+  background-color: var(--b2b-volt) !important;
+  color: var(--b2b-ink) !important;
+  box-shadow: 0 4px 20px rgba(212, 255, 46, 0.35);
+  font-weight: 800;
+}
+
+.b2b-nav-link.active i {
+  color: var(--b2b-ink) !important;
+}
+
+.b2b-nav-link.active .b2b-pill-badge {
+  background-color: var(--b2b-ink) !important;
+  color: var(--b2b-volt) !important;
+}
+
+/* Badge for My Requests */
+.b2b-pill-badge {
+  margin-left: auto;
+  background-color: var(--b2b-volt);
+  color: var(--b2b-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+/* Logout Button */
+.b2b-logout-wrap {
+  padding: 18px 14px 28px 14px;
+}
+
+.b2b-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #9ca3af;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: all 0.25s ease;
+}
+
+.b2b-logout-btn:hover {
+  background: rgba(212, 255, 46, 0.12);
+  color: var(--b2b-volt);
+  border-color: rgba(212, 255, 46, 0.3);
+  box-shadow: 0 4px 14px rgba(212, 255, 46, 0.15);
+}
+
+/* --------------------------------------------------
+   MAIN CONTENT WRAPPER
+   -------------------------------------------------- */
+.b2b-main-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--b2b-sidebar-bg);
+  margin-left: 250px;
+  min-width: 0;
+  position: relative;
+}
+
+/* Topbar (Stable Sticky Navbar on Scroll) */
+.b2b-topbar {
+  position: fixed;
+  top: 0;
+  left: 250px;
+  right: 0;
+  z-index: 105;
+  background-color: rgba(15, 16, 18, 0.95);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 18px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s ease;
+}
+
+.b2b-topbar.scrolled {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+  border-bottom-color: rgba(212, 255, 46, 0.35);
+  background-color: rgba(12, 13, 16, 0.98);
+}
+
+.b2b-topbar-title {
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.b2b-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Theme toggle sun button */
+.b2b-theme-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  color: #121417;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.b2b-theme-btn:hover {
+  transform: scale(1.06);
+}
+
+/* User Greeting text */
+.b2b-user-greeting {
+  font-size: 0.92rem;
+  color: #8f94a1;
+  font-weight: 500;
+}
+
+.b2b-user-email-highlight {
+  color: var(--b2b-volt);
+  font-weight: 700;
+}
+
+/* Avatar with volt border */
+.b2b-avatar-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--b2b-volt);
+  box-shadow: 0 0 12px rgba(212, 255, 46, 0.35);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1b1e24;
+}
+
+.b2b-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* User Role & Name Badge in Topbar */
+.b2b-user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.b2b-badge-username {
+  color: #f3f2ee;
+  font-weight: 700;
+  font-size: 0.86rem;
+  letter-spacing: -0.01em;
+}
+
+.b2b-badge-divider {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.8rem;
+}
+
+.b2b-badge-role {
+  background: var(--b2b-volt);
+  color: var(--b2b-ink);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: 'Space Mono', monospace;
+}
+
+/* --------------------------------------------------
+   CANVAS AREA & TAB PANES
+   -------------------------------------------------- */
+.b2b-canvas {
+  background-color: var(--b2b-canvas-bg);
+  flex-grow: 1;
+  border-top-left-radius: 28px;
+  padding: 110px 36px 40px 36px;
+  padding-top: max(110px, calc(var(--b2b-topbar-h, 85px) + 24px));
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tab Panes */
+.b2b-tab-pane { display: none !important; }
+
+.b2b-tab-pane.active { display: flex !important; flex-direction: column; gap: 28px; animation: b2bFadeIn 0.35s ease; }
+
+@keyframes b2bFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------------------------------------
+   CARD & HOVER STYLES
+   -------------------------------------------------- */
+.b2b-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.b2b-kpi-card {
+  background: var(--b2b-card-bg);
+  border-radius: 20px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.035);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: default;
+}
+
+.b2b-kpi-card:hover,
+.stat-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(15, 16, 18, 0.08), 0 0 18px rgba(212, 255, 46, 0.15);
+  border-color: rgba(182, 224, 0, 0.45);
+}
+
+.b2b-kpi-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.b2b-kpi-card:hover .b2b-kpi-icon-wrap {
+  transform: scale(1.08);
+}
+
+.b2b-kpi-icon-pink,
+.b2b-kpi-icon-volt {
+  background: rgba(212, 255, 46, 0.22);
+  color: #4e6b00;
+}
+
+.b2b-kpi-icon-coral,
+.b2b-kpi-icon-cyan {
+  background: #ecfeff;
+  color: #0891b2;
+}
+
+.b2b-kpi-icon-amber {
+  background: #fff7ed;
+  color: #f97316;
+}
+
+.b2b-kpi-icon-gold {
+  background: #fefce8;
+  color: #eab308;
+}
+
+.b2b-kpi-icon-purple {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.b2b-kpi-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.b2b-kpi-stat {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #121417;
+  line-height: 1.1;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.b2b-kpi-stat small {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #8a909d;
+}
+
+.b2b-kpi-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #7b8190;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+/* Buttons in Cards - Stackly Signature Volt Pill Buttons */
+.b2b-btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 20px;
+  border-radius: 50px;
+  background: var(--b2b-volt);
+  color: var(--b2b-ink);
+  font-weight: 800;
+  font-size: 0.84rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(212, 255, 46, 0.35);
+}
+
+.b2b-btn-action:hover {
+  background: #e4ff68;
+  color: var(--b2b-ink);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(182, 224, 0, 0.55);
+}
+
+.b2b-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #f1f3f7;
+  color: #374151;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+}
+
+.b2b-btn-ghost:hover {
+  background: #e5e7eb;
+  color: #111827;
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------
+   HERO SCORE CARD (Row 2 in Dashboard)
+   -------------------------------------------------- */
+.b2b-hero-card {
+  background: var(--b2b-card-bg);
+  border-radius: 22px;
+  padding: 24px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.035);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.b2b-hero-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+}
+
+.b2b-hero-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.b2b-score-ring {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: conic-gradient(#d4ff2e 0deg 115deg, #10b981 115deg 215deg, #06b6d4 215deg 295deg, #f59e0b 295deg 360deg);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(212, 255, 46, 0.25);
+}
+
+.b2b-score-ring-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.b2b-score-ring-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.b2b-hero-score-val {
+  font-size: 3.4rem;
+  font-weight: 800;
+  color: #121417;
+  line-height: 1;
+}
+
+.b2b-hero-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.b2b-hero-title {
+  font-size: 1.28rem;
+  font-weight: 800;
+  color: #121417;
+  margin: 0 0 5px 0;
+  letter-spacing: -0.01em;
+}
+
+.b2b-hero-sub {
+  font-size: 0.92rem;
+  color: #7b8190;
+  margin: 0;
+}
+
+.b2b-hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.b2b-rating-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #7b8190;
+  margin-bottom: 2px;
+}
+
+.b2b-rating-val {
+  font-size: 3.4rem;
+  font-weight: 800;
+  color: #121417;
+  line-height: 1;
+}
+
+.b2b-rating-stars {
+  color: var(--b2b-gold);
+  font-size: 0.95rem;
+  display: flex;
+  gap: 3px;
+  margin-top: 5px;
+}
+
+/* --------------------------------------------------
+   SPLIT PANEL CARDS (Row 3 & Content Tabs)
+   -------------------------------------------------- */
+.b2b-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.b2b-panel-card {
+  background: var(--b2b-card-bg);
+  border-radius: 22px;
+  padding: 26px 28px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.035);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.b2b-panel-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+.b2b-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.b2b-panel-title {
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #121417;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.b2b-panel-link {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.b2b-panel-link:hover {
+  text-decoration: underline;
+  color: #1d4ed8;
+}
+
+/* Donut Chart Gauge */
+.b2b-skills-body {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-grow: 1;
+}
+
+.b2b-donut-gauge {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #a3cf08 0% 34%,
+    #06b6d4 34% 60%,
+    #f59e0b 60% 82%,
+    #8b5cf6 82% 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.b2b-donut-gauge::after {
+  content: '';
+  position: absolute;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.b2b-donut-inner-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.b2b-donut-points {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #121417;
+  line-height: 1;
+}
+
+.b2b-donut-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #7b8190;
+  margin-top: 2px;
+}
+
+/* Skill Progress Bars */
+.b2b-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-grow: 1;
+}
+
+.b2b-skill-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.b2b-skill-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.b2b-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.b2b-dot-red,
+.b2b-dot-volt { background: #a3cf08; }
+.b2b-dot-amber { background: #f59e0b; }
+.b2b-dot-cyan { background: #06b6d4; }
+.b2b-dot-purple { background: #8b5cf6; }
+
+.b2b-skill-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.b2b-bar-track {
+  flex-grow: 1;
+  height: 6px;
+  background: #f1f3f7;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.b2b-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+}
+
+.b2b-bar-red,
+.b2b-bar-volt { background: linear-gradient(90deg, #d4ff2e, #a3cf08); }
+.b2b-bar-amber { background: #f59e0b; }
+.b2b-bar-cyan { background: #06b6d4; }
+.b2b-bar-purple { background: #8b5cf6; }
+
+.b2b-skill-pct {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6b7280;
+  width: 38px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Feedback Box */
+.b2b-feedback-body {
+  display: flex;
+  gap: 26px;
+  flex-grow: 1;
+}
+
+.b2b-feedback-summary {
+  width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.b2b-feedback-score {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #121417;
+  line-height: 1.1;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.b2b-feedback-score small {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #7b8190;
+}
+
+.b2b-feedback-stars {
+  color: var(--b2b-gold);
+  font-size: 0.9rem;
+  display: flex;
+  gap: 2px;
+  margin: 6px 0 16px 0;
+}
+
+.b2b-completed-count {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #121417;
+  line-height: 1.4;
+}
+
+.b2b-completed-count span.red,
+.b2b-completed-count span.volt {
+  color: #4e6b00;
+  font-weight: 800;
+}
+
+.b2b-feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.b2b-feedback-item {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: all 0.2s;
+}
+
+.b2b-feedback-item:hover {
+  background: #f3f4f6;
+  transform: translateX(3px);
+}
+
+.b2b-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.b2b-item-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.b2b-item-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.b2b-item-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #121417;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.b2b-item-reviewer {
+  font-size: 0.76rem;
+  color: #7b8190;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.b2b-item-rating {
+  color: var(--b2b-gold);
+  font-size: 0.86rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------
+   TABLES & GEAR GRIDS FOR NEW TABS
+   -------------------------------------------------- */
+.b2b-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.b2b-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.b2b-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.b2b-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f3f7;
+  color: #1f2937;
+  vertical-align: middle;
+}
+
+.b2b-table tr {
+  transition: background 0.2s ease;
+}
+
+.b2b-table tr:hover {
+  background-color: #f9fafb;
+}
+
+.b2b-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.b2b-status-success { background: #ecfdf5; color: #059669; }
+.b2b-status-warning { background: #fffbeb; color: #d97706; }
+.b2b-status-info { background: #eff6ff; color: #2563eb; }
+
+/* Product Cards Grid */
+.b2b-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.b2b-product-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.b2b-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(15, 16, 18, 0.08), 0 0 16px rgba(212, 255, 46, 0.15);
+  border-color: rgba(182, 224, 0, 0.45);
+}
+
+.b2b-product-img-wrap {
+  width: 100%;
+  height: 140px;
+  border-radius: 12px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.b2b-product-img-wrap img {
+  max-height: 85%;
+  max-width: 85%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.b2b-product-card:hover .b2b-product-img-wrap img {
+  transform: scale(1.06);
+}
+
+.b2b-product-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.b2b-product-sub {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.b2b-product-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.b2b-product-price {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+
+/* Mobile Navigation & Toggle Components */
+.b2b-mobile-toggle {
+  display: none;
+  background: #15161c;
+  border: 1px solid rgba(243, 242, 238, 0.08);
+  color: #d5d8e2;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.b2b-mobile-toggle:hover {
+  color: var(--b2b-volt);
+  border-color: rgba(212, 255, 46, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+}
+.b2b-mobile-logo {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 255, 46, 0.28);
+  border-radius: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.b2b-mobile-logo img {
+  height: 26px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(212, 255, 46, 0.35));
+}
+.b2b-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.b2b-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 105;
+  display: none;
+}
+.b2b-overlay.active {
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .b2b-kpi-grid,
+  .b2b-product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .b2b-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .b2b-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 260px;
+    min-width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    z-index: 110;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.85);
+  }
+  .b2b-sidebar.open {
+    transform: translateX(0);
+  }
+  .b2b-mobile-toggle {
+    display: flex;
+  }
+  .b2b-mobile-logo {
+    display: flex;
+  }
+  .b2b-main-wrapper {
+    margin-left: 0;
+    width: 100%;
+    min-width: 0;
+  }
+  .b2b-topbar {
+    left: 0;
+    right: 0;
+    padding: 14px 20px;
+    gap: 12px;
+  }
+  .b2b-canvas {
+    border-top-left-radius: 0;
+    padding: 130px 20px 40px 20px;
+    padding-top: max(130px, calc(var(--b2b-topbar-h, 95px) + 24px));
+  }
+  .b2b-hero-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .b2b-hero-right {
+    align-items: flex-start;
+  }
+  .b2b-skills-body,
+  .b2b-feedback-body {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 576px) {
+  .b2b-topbar {
+    left: 0;
+    right: 0;
+    padding: 12px 14px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .b2b-topbar-left {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .b2b-topbar-title {
+    font-size: 1.15rem;
+    line-height: 1.25;
+    word-break: break-word;
+  }
+  .b2b-topbar-right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .b2b-user-badge {
+    padding: 6px 12px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+    box-sizing: border-box;
+  }
+  .b2b-canvas {
+    padding: 185px 14px 40px 14px;
+    padding-top: max(185px, calc(var(--b2b-topbar-h, 155px) + 20px));
+    border-top-left-radius: 0;
+  }
+  .b2b-kpi-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .b2b-kpi-card {
+    padding: 16px 18px;
+    border-radius: 16px;
+    overflow: visible;
+  }
+  .b2b-kpi-content {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .b2b-kpi-stat {
+    font-size: 1.55rem;
+    line-height: 1.15;
+  }
+  .b2b-kpi-label {
+    font-size: 0.82rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .b2b-hero-card {
+    padding: 18px 16px;
+    border-radius: 18px;
+    gap: 16px;
+  }
+  .b2b-hero-left {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 10px 14px;
+    width: 100%;
+  }
+  .b2b-score-ring {
+    grid-column: 1;
+    grid-row: 1;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+  }
+  .b2b-hero-score-val {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 2.8rem;
+    line-height: 1;
+  }
+  .b2b-hero-info {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
+  .b2b-hero-title {
+    font-size: 1.15rem;
+    line-height: 1.3;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+  .b2b-hero-sub {
+    font-size: 0.82rem;
+  }
+  .b2b-hero-right {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding-top: 12px;
+  }
+  .dark-mode .b2b-hero-right {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+  .b2b-rating-val {
+    font-size: 1.4rem;
+  }
+  .b2b-product-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .b2b-panel-card {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+  .b2b-split-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .b2b-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+}
+
+</style>
+</head>
+<body class="b2b-body">
+
+<div class="b2b-app">
+  <div class="b2b-overlay" id="b2bOverlay"></div>
+
+  <!-- ==================== LEFT SIDEBAR ==================== -->
+  <aside class="b2b-sidebar" id="b2bSidebar">
+    
+    <!-- Brand Header -->
+    <a href="index.html" class="b2b-brand-box" title="Return to Stackly Home" style="display:flex;align-items:center;padding:24px 22px 20px;text-decoration:none;">
+      <img src="logo_volt_white.webp" alt="Stackly" class="b2b-brand-logo" style="height:32px;width:auto;display:block;filter:drop-shadow(0 2px 10px rgba(212,255,46,0.4));">
+    </a>
+
+    <!-- Navigation Menu with 6 Workstation Tabs -->
+    <ul class="b2b-nav">
+      <li class="b2b-nav-item">
+        <a href="#dashboard" class="b2b-nav-link active" data-tab-nav="dashboard">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="b2b-nav-item">
+        <a href="#electronics" class="b2b-nav-link" data-tab-nav="electronics">
+          <i class="fa-solid fa-microchip"></i>
+          <span>Electronics</span>
+        </a>
+      </li>
+      <li class="b2b-nav-item">
+        <a href="#smartgear" class="b2b-nav-link" data-tab-nav="smartgear">
+          <i class="fa-solid fa-wifi"></i>
+          <span>Wholesale &amp; Bulk Orders</span>
+        </a>
+      </li>
+      <li class="b2b-nav-item">
+        <a href="#inventory" class="b2b-nav-link" data-tab-nav="inventory">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>Warehouse Stock</span>
+        </a>
+      </li>
+      <li class="b2b-nav-item">
+        <a href="#warranties" class="b2b-nav-link" data-tab-nav="warranties">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Commercial Warranties</span>
+        </a>
+      </li>
+      <li class="b2b-nav-item">
+        <a href="#serviceorders" class="b2b-nav-link" data-tab-nav="serviceorders">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Priority Dispatch</span>
+        </a>
+      </li>
+      <li class="b2b-nav-item">
+        <a href="#requests" class="b2b-nav-link" data-tab-nav="requests">
+          <i class="fa-regular fa-file-lines"></i>
+          <span>My Requests</span>
+          <span class="b2b-pill-badge">36</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Bottom Logout -->
+    <div class="b2b-logout-wrap">
+      <a href="login.html" class="b2b-logout-btn" id="b2bLogoutBtn">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+  <div class="b2b-main-wrapper">
+    
+    <!-- Topbar Header -->
+    <header class="b2b-topbar">
+      <div class="b2b-topbar-left">
+        <button class="b2b-mobile-toggle" id="b2bMobileToggle" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="index.html" class="b2b-mobile-logo" aria-label="Stackly Home">
+          <img src="logo_volt_white.webp" alt="Stackly">
+        </a>
+        <h2 class="b2b-topbar-title" id="b2bHeaderTitle">Employee Workstation</h2>
+      </div>
+
+      <div class="b2b-topbar-right">
+        <!-- Avatar with Volt Glow Ring -->
+        <div class="b2b-avatar-wrap" title="Partner Profile">
+          <img src="assets/images/team-theo-alvarez.webp" alt="Avatar" class="b2b-avatar-img" id="userAvatarImg">
+        </div>
+
+        <!-- User Role and Name Badge -->
+        <div class="b2b-user-badge" id="b2bUserBadge" title="Signed in Partner">
+          <span class="b2b-badge-username" id="b2bUserName">brittoj346</span>
+          <span class="b2b-badge-divider">|</span>
+          <span class="b2b-badge-role" id="b2bUserRole">Business Partner</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Canvas (Off-white Body) -->
+    <main class="b2b-canvas">
+
+      <!-- ==================== TAB 1: DASHBOARD ==================== -->
+      <div class="b2b-tab-pane active" id="pane-dashboard">
+        
+        <!-- Row 1: 4 KPI Cards -->
+        <section class="b2b-kpi-grid">
+          
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-volt">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="38.5" data-decimals="1">0</span><small>/40h</small></div>
+              <div class="b2b-kpi-label">Hours Logged This Week</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-cyan">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="12">0</span><small>/14</small></div>
+              <div class="b2b-kpi-label">Tasks Completed Today</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-amber">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="1.4" data-suffix="h" data-decimals="1">0</span></div>
+              <div class="b2b-kpi-label">Avg Resolution Speed</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-gold">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="1250">0</span></div>
+              <div class="b2b-kpi-label">Performance Score Pts</div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Row 2: Hero Performance Card -->
+        <section class="b2b-hero-card stat-card-hover">
+          <div class="b2b-hero-left">
+            <div class="b2b-score-ring">
+              <div class="b2b-score-ring-inner">
+                <img src="assets/images/about-testing-lab.webp" alt="Workstation Lab">
+              </div>
+            </div>
+            <div class="b2b-hero-score-val"><span class="stat-counter" data-target="86">0</span></div>
+            <div class="b2b-hero-info">
+              <h3 class="b2b-hero-title">Your Personal Skill &amp; Performance Score</h3>
+              <p class="b2b-hero-sub">Great job! You are ranked in the top 5% of your team this month.</p>
+            </div>
+          </div>
+
+          <div class="b2b-hero-right">
+            <div class="b2b-rating-label">My Overall Rating</div>
+            <div class="b2b-rating-val"><span class="stat-counter" data-target="4.8" data-decimals="1">0</span></div>
+            <div class="b2b-rating-stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- Row 3: Bottom Split Cards -->
+        <section class="b2b-split-grid">
+          
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">My Technical Skill Proficiency</h4>
+              <a href="404.html" class="b2b-panel-link">View Matrix &rarr;</a>
+            </div>
+
+            <div class="b2b-skills-body">
+              <div class="b2b-donut-gauge">
+                <div class="b2b-donut-inner-content">
+                  <span class="b2b-donut-points"><span class="stat-counter" data-target="86">0</span></span>
+                  <span class="b2b-donut-label">Points</span>
+                </div>
+              </div>
+
+              <div class="b2b-skills-list">
+                <div class="b2b-skill-row">
+                  <div class="b2b-skill-name-wrap">
+                    <span class="b2b-dot b2b-dot-volt"></span>
+                    <span class="b2b-skill-name">Programming</span>
+                  </div>
+                  <div class="b2b-bar-track">
+                    <div class="b2b-bar-fill b2b-bar-volt" style="width: 85%;"></div>
+                  </div>
+                  <span class="b2b-skill-pct">85%</span>
+                </div>
+
+                <div class="b2b-skill-row">
+                  <div class="b2b-skill-name-wrap">
+                    <span class="b2b-dot b2b-dot-amber"></span>
+                    <span class="b2b-skill-name">UI/UX Design</span>
+                  </div>
+                  <div class="b2b-bar-track">
+                    <div class="b2b-bar-fill b2b-bar-amber" style="width: 70%;"></div>
+                  </div>
+                  <span class="b2b-skill-pct">70%</span>
+                </div>
+
+                <div class="b2b-skill-row">
+                  <div class="b2b-skill-name-wrap">
+                    <span class="b2b-dot b2b-dot-cyan"></span>
+                    <span class="b2b-skill-name">Video Editing</span>
+                  </div>
+                  <div class="b2b-bar-track">
+                    <div class="b2b-bar-fill b2b-bar-cyan" style="width: 80%;"></div>
+                  </div>
+                  <span class="b2b-skill-pct">80%</span>
+                </div>
+
+                <div class="b2b-skill-row">
+                  <div class="b2b-skill-name-wrap">
+                    <span class="b2b-dot b2b-dot-purple"></span>
+                    <span class="b2b-skill-name">Marketing Ops</span>
+                  </div>
+                  <div class="b2b-bar-track">
+                    <div class="b2b-bar-fill b2b-bar-purple" style="width: 65%;"></div>
+                  </div>
+                  <span class="b2b-skill-pct">65%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">My Completed Tasks &amp; Feedback</h4>
+              <a href="404.html" class="b2b-panel-link">See All &rarr;</a>
+            </div>
+
+            <div class="b2b-feedback-body">
+              <div class="b2b-feedback-summary">
+                <div class="b2b-feedback-score"><span class="stat-counter" data-target="4.8" data-decimals="1">0</span><small>/5</small></div>
+                <div class="b2b-feedback-stars">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="b2b-completed-count">
+                  <span class="red"><span class="stat-counter" data-target="164">0</span></span> Completed Tasks
+                </div>
+              </div>
+
+              <div class="b2b-feedback-list">
+                <div class="b2b-feedback-item">
+                  <div class="b2b-item-left">
+                    <img src="assets/images/product-10-forge-laptop.webp" alt="Workstation" class="b2b-item-thumb">
+                    <div class="b2b-item-info">
+                      <h5 class="b2b-item-title">Design UI/UX for X Co...</h5>
+                      <p class="b2b-item-reviewer">Reviewed By Team Manager</p>
+                    </div>
+                  </div>
+                  <div class="b2b-item-rating">
+                    <i class="fa-solid fa-star"></i> 4.8
+                  </div>
+                </div>
+
+                <div class="b2b-feedback-item">
+                  <div class="b2b-item-left">
+                    <img src="assets/images/product-02-nova-smartphone.webp" alt="Mobile Gear" class="b2b-item-thumb">
+                    <div class="b2b-item-info">
+                      <h5 class="b2b-item-title">Developing Mobile App ...</h5>
+                      <p class="b2b-item-reviewer">Reviewed By Tech Lead</p>
+                    </div>
+                  </div>
+                  <div class="b2b-item-rating">
+                    <i class="fa-solid fa-star"></i> 4.5
+                  </div>
+                </div>
+
+                <div class="b2b-feedback-item">
+                  <div class="b2b-item-left">
+                    <img src="assets/images/product-01-aura-headphones.webp" alt="Studio Audio" class="b2b-item-thumb">
+                    <div class="b2b-item-info">
+                      <h5 class="b2b-item-title">Editing Video Assets</h5>
+                      <p class="b2b-item-reviewer">Reviewed By Team Manager</p>
+                    </div>
+                  </div>
+                  <div class="b2b-item-rating">
+                    <i class="fa-solid fa-star"></i> 4.7
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- ==================== TAB 2: ELECTRONICS ==================== -->
+      <div class="b2b-tab-pane" id="pane-electronics">
+        
+        <!-- Top 4 Electronics KPI Cards with Counters & Hover -->
+        <section class="b2b-kpi-grid">
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-volt"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="842">0</span><small> SKUs</small></div>
+              <div class="b2b-kpi-label">Smartphones &amp; Mobile</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-cyan"><i class="fa-solid fa-laptop"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="524">0</span><small> Units</small></div>
+              <div class="b2b-kpi-label">Computing &amp; Laptops</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-amber"><i class="fa-solid fa-headphones"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="712">0</span><small> Sets</small></div>
+              <div class="b2b-kpi-label">Audio &amp; ANC Gear</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-gold"><i class="fa-solid fa-camera"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="286">0</span><small> Kits</small></div>
+              <div class="b2b-kpi-label">Cameras &amp; Studio 4K</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Split Grid: Category Volume Breakdown & Top Electronics Products Table -->
+        <section class="b2b-split-grid">
+          
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">Revenue by Electronics Line</h4>
+              <a href="404.html" class="b2b-btn-action">View Analytics &rarr;</a>
+            </div>
+
+            <div class="b2b-skills-list">
+              <div class="b2b-skill-row">
+                <div class="b2b-skill-name-wrap"><span class="b2b-dot b2b-dot-volt"></span><span class="b2b-skill-name">Studio Audio (34%)</span></div>
+                <div class="b2b-bar-track"><div class="b2b-bar-fill b2b-bar-volt" style="width: 34%;"></div></div>
+                <span class="b2b-skill-pct">$288k</span>
+              </div>
+              <div class="b2b-skill-row">
+                <div class="b2b-skill-name-wrap"><span class="b2b-dot b2b-dot-amber"></span><span class="b2b-skill-name">Smartphones (28%)</span></div>
+                <div class="b2b-bar-track"><div class="b2b-bar-fill b2b-bar-amber" style="width: 28%;"></div></div>
+                <span class="b2b-skill-pct">$237k</span>
+              </div>
+              <div class="b2b-skill-row">
+                <div class="b2b-skill-name-wrap"><span class="b2b-dot b2b-dot-cyan"></span><span class="b2b-skill-name">Laptops &amp; PC (22%)</span></div>
+                <div class="b2b-bar-track"><div class="b2b-bar-fill b2b-bar-cyan" style="width: 22%;"></div></div>
+                <span class="b2b-skill-pct">$186k</span>
+              </div>
+              <div class="b2b-skill-row">
+                <div class="b2b-skill-name-wrap"><span class="b2b-dot b2b-dot-purple"></span><span class="b2b-skill-name">Cameras &amp; 4K (16%)</span></div>
+                <div class="b2b-bar-track"><div class="b2b-bar-fill b2b-bar-purple" style="width: 16%;"></div></div>
+                <span class="b2b-skill-pct">$135k</span>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+              <div>
+                <span class="text-muted d-block" style="font-size:0.75rem;">TOTAL VOLUME</span>
+                <b class="fs-5">$847,290</b>
+              </div>
+              <a href="404.html" class="b2b-btn-ghost">Export Report</a>
+            </div>
+          </div>
+
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">Top Selling Hardware</h4>
+              <a href="404.html" class="b2b-btn-action">Download Specs</a>
+            </div>
+
+            <div class="b2b-table-wrap">
+              <table class="b2b-table">
+                <thead>
+                  <tr>
+                    <th>Device</th>
+                    <th>Units</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b>Aura Max Headphones</b></td>
+                    <td><span class="stat-counter" data-target="1420">0</span></td>
+                    <td><span class="b2b-status-pill b2b-status-success">In Stock</span></td>
+                    <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">Order Batch</a></td>
+                  </tr>
+                  <tr>
+                    <td><b>Nova X Pro 5G</b></td>
+                    <td><span class="stat-counter" data-target="840">0</span></td>
+                    <td><span class="b2b-status-pill b2b-status-success">In Stock</span></td>
+                    <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">Order Batch</a></td>
+                  </tr>
+                  <tr>
+                    <td><b>Zenbook Air 14</b></td>
+                    <td><span class="stat-counter" data-target="310">0</span></td>
+                    <td><span class="b2b-status-pill b2b-status-warning">Low Stock</span></td>
+                    <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">Fast Reorder</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Electronics Flagship Showcase Grid -->
+        <section class="b2b-panel-card stat-card-hover">
+          <div class="b2b-panel-header">
+            <h4 class="b2b-panel-title">Flagship Electronics Catalog</h4>
+            <a href="404.html" class="b2b-btn-action">Open Electronics Portal &rarr;</a>
+          </div>
+
+          <div class="b2b-product-grid">
+            <div class="b2b-product-card stat-card-hover">
+              <div class="b2b-product-img-wrap"><img src="assets/images/product-01-aura-headphones.webp" alt="Aura Max"></div>
+              <h5 class="b2b-product-title">Aura Max ANC</h5>
+              <p class="b2b-product-sub">40mm titanium drivers · 40h battery</p>
+              <div class="b2b-product-foot">
+                <span class="b2b-product-price">$349</span>
+                <a href="404.html" class="b2b-btn-action" style="padding:5px 12px;font-size:0.75rem;">Order PO</a>
+              </div>
+            </div>
+
+            <div class="b2b-product-card stat-card-hover">
+              <div class="b2b-product-img-wrap"><img src="assets/images/product-02-nova-smartphone.webp" alt="Nova X Pro"></div>
+              <h5 class="b2b-product-title">Nova X Pro 5G</h5>
+              <p class="b2b-product-sub">120Hz LTPO OLED · 200MP Triple Cam</p>
+              <div class="b2b-product-foot">
+                <span class="b2b-product-price">$899</span>
+                <a href="404.html" class="b2b-btn-action" style="padding:5px 12px;font-size:0.75rem;">Order PO</a>
+              </div>
+            </div>
+
+            <div class="b2b-product-card stat-card-hover">
+              <div class="b2b-product-img-wrap"><img src="assets/images/product-03-zenbook-laptop.webp" alt="Zenbook Air 14"></div>
+              <h5 class="b2b-product-title">Zenbook Air 14</h5>
+              <p class="b2b-product-sub">M3 Pro chip · 32GB RAM · 18h battery</p>
+              <div class="b2b-product-foot">
+                <span class="b2b-product-price">$1,299</span>
+                <a href="404.html" class="b2b-btn-action" style="padding:5px 12px;font-size:0.75rem;">Order PO</a>
+              </div>
+            </div>
+
+            <div class="b2b-product-card stat-card-hover">
+              <div class="b2b-product-img-wrap"><img src="assets/images/product-06-frame-camera.webp" alt="Frame Mirrorless"></div>
+              <h5 class="b2b-product-title">Frame 4K Camera</h5>
+              <p class="b2b-product-sub">48MP full-frame · Dual slots · IBIS</p>
+              <div class="b2b-product-foot">
+                <span class="b2b-product-price">$1,499</span>
+                <a href="404.html" class="b2b-btn-action" style="padding:5px 12px;font-size:0.75rem;">Order PO</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ==================== TAB 3: SMART GEAR ==================== -->
+      <div class="b2b-tab-pane" id="pane-smartgear">
+        
+        <section class="b2b-kpi-grid">
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-volt"><i class="fa-solid fa-house-signal"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="468">0</span><small> Hubs</small></div>
+              <div class="b2b-kpi-label">Smart Home Nodes</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-cyan"><i class="fa-solid fa-stopwatch-20"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="392">0</span><small> Active</small></div>
+              <div class="b2b-kpi-label">Wearable Sensors</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-amber"><i class="fa-solid fa-gamepad"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="624">0</span><small> Rigs</small></div>
+              <div class="b2b-kpi-label">Gaming &amp; VR Hardware</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-gold"><i class="fa-solid fa-robot"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="156">0</span><small> Units</small></div>
+              <div class="b2b-kpi-label">AI Automation Gear</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Drop Campaigns & Smart Promo Codes -->
+        <section class="b2b-split-grid">
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">Active Drop Campaign · 40% Off</h4>
+              <span class="b2b-status-pill b2b-status-info">Active</span>
+            </div>
+            <p class="text-muted" style="font-size:0.86rem;">Global B2B wholesale promotion for enterprise workstations &amp; fleet bundles.</p>
+            
+            <div class="row g-3 my-2">
+              <div class="col-6">
+                <div class="p-3 bg-light rounded-3">
+                  <span class="text-muted d-block small">CAMPAIGN SPEND</span>
+                  <b class="fs-5">$<span class="stat-counter" data-target="12400">0</span></b>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 bg-light rounded-3">
+                  <span class="text-muted d-block small">ATTRIBUTED REVENUE</span>
+                  <b class="fs-5 text-success">$<span class="stat-counter" data-target="68200">0</span></b>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <a href="404.html" class="b2b-btn-action w-100">Manage Campaign &rarr;</a>
+            </div>
+          </div>
+
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">B2B Promo &amp; Discount Vouchers</h4>
+              <a href="404.html" class="b2b-btn-action">Add Voucher</a>
+            </div>
+
+            <div class="d-flex flex-column gap-2">
+              <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
+                <div>
+                  <b class="text-danger font-monospace">VOLT40</b>
+                  <div class="text-muted small">40% Off Smart Gear Drops</div>
+                </div>
+                <a href="404.html" class="b2b-btn-ghost">Apply Deal</a>
+              </div>
+
+              <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
+                <div>
+                  <b class="text-danger font-monospace">STACKLYB2B</b>
+                  <div class="text-muted small">Corporate Net-30 Facility</div>
+                </div>
+                <a href="404.html" class="b2b-btn-ghost">Apply Deal</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ==================== TAB 4: INVENTORY ==================== -->
+      <div class="b2b-tab-pane" id="pane-inventory">
+        
+        <section class="b2b-kpi-grid">
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-volt"><i class="fa-solid fa-barcode"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="124">0</span><small> Lines</small></div>
+              <div class="b2b-kpi-label">Active SKUs In Stock</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-cyan"><i class="fa-solid fa-warehouse"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="3420">0</span><small> Units</small></div>
+              <div class="b2b-kpi-label">Total Warehouse Units</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-amber"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="2">0</span><small> Alerts</small></div>
+              <div class="b2b-kpi-label">Low Stock Reorders</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-gold"><i class="fa-solid fa-truck-ramp-box"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="14">0</span><small> Bench</small></div>
+              <div class="b2b-kpi-label">RMA Testing Units</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Fleet Inventory Table -->
+        <section class="b2b-panel-card stat-card-hover">
+          <div class="b2b-panel-header">
+            <h4 class="b2b-panel-title">Stackly Device Inventory &amp; Hardware Status</h4>
+            <a href="404.html" class="b2b-btn-action"><i class="fa-solid fa-plus me-1"></i> Restock All</a>
+          </div>
+
+          <div class="b2b-table-wrap">
+            <table class="b2b-table">
+              <thead>
+                <tr>
+                  <th>Device Model</th>
+                  <th>Category</th>
+                  <th>SKU</th>
+                  <th>Stock Units</th>
+                  <th>Health Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Aura Max Headphones</b></td>
+                  <td>Audio</td>
+                  <td><span class="font-monospace">STK-AUR-MAX</span></td>
+                  <td><b><span class="stat-counter" data-target="142">0</span> units</b></td>
+                  <td><span class="b2b-status-pill b2b-status-success">Optimal</span></td>
+                  <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">Restock</a></td>
+                </tr>
+                <tr>
+                  <td><b>Nova X Pro 5G</b></td>
+                  <td>Mobile</td>
+                  <td><span class="font-monospace">STK-NOV-XPRO</span></td>
+                  <td><b><span class="stat-counter" data-target="86">0</span> units</b></td>
+                  <td><span class="b2b-status-pill b2b-status-success">100% Certified</span></td>
+                  <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">Restock</a></td>
+                </tr>
+                <tr>
+                  <td><b>Zenbook Air 14</b></td>
+                  <td>Computing</td>
+                  <td><span class="font-monospace">STK-ZEN-AIR14</span></td>
+                  <td><b class="text-warning"><span class="stat-counter" data-target="34">0</span> units</b></td>
+                  <td><span class="b2b-status-pill b2b-status-warning">Low Stock</span></td>
+                  <td><a href="404.html" class="b2b-btn-action" style="padding:4px 10px;font-size:0.75rem;">Fast Reorder</a></td>
+                </tr>
+                <tr>
+                  <td><b>Frame Mirrorless 4K</b></td>
+                  <td>Cameras</td>
+                  <td><span class="font-monospace">STK-FRM-CAM</span></td>
+                  <td><b class="text-danger"><span class="stat-counter" data-target="18">0</span> units</b></td>
+                  <td><span class="b2b-status-pill b2b-status-warning">Critical Stock</span></td>
+                  <td><a href="404.html" class="b2b-btn-action" style="padding:4px 10px;font-size:0.75rem;">Fast Reorder</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ==================== TAB 5: WARRANTIES ==================== -->
+      <div class="b2b-tab-pane" id="pane-warranties">
+        
+        <section class="b2b-kpi-grid">
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-volt"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="1420">0</span><small> Devices</small></div>
+              <div class="b2b-kpi-label">Active Protected Units</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-cyan"><i class="fa-solid fa-file-shield"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="48">0</span><small> Cases</small></div>
+              <div class="b2b-kpi-label">Active RMA Claims</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-amber"><i class="fa-solid fa-bolt"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="18.2" data-suffix="h" data-decimals="1">0</span></div>
+              <div class="b2b-kpi-label">Avg Claim Resolution</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-gold"><i class="fa-solid fa-award"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="98.9" data-suffix="%" data-decimals="1">0%</span></div>
+              <div class="b2b-kpi-label">Satisfaction Rating</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Warranty Coverage & Active Tickets -->
+        <section class="b2b-split-grid">
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">Stackly Care Plan Coverage</h4>
+              <a href="404.html" class="b2b-btn-action">Upgrade Care</a>
+            </div>
+            
+            <div class="p-3 bg-light rounded-3 mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <b>2-Year Enterprise Warranty</b>
+                <span class="b2b-status-pill b2b-status-success">100% Active</span>
+              </div>
+              <p class="text-muted small mb-0">Covers manufacturing defects, battery replacements, and priority door-to-door RMA exchange.</p>
+            </div>
+
+            <a href="404.html" class="b2b-btn-ghost w-100">Download Warranty Terms PDF</a>
+          </div>
+
+          <div class="b2b-panel-card stat-card-hover">
+            <div class="b2b-panel-header">
+              <h4 class="b2b-panel-title">Active Claim Tickets</h4>
+              <a href="404.html" class="b2b-btn-action">New Claim</a>
+            </div>
+
+            <div class="b2b-table-wrap">
+              <table class="b2b-table">
+                <thead>
+                  <tr>
+                    <th>Claim ID</th>
+                    <th>Device</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b class="text-danger">CLM-4921</b></td>
+                    <td>Forge Pro Workstation</td>
+                    <td><span class="b2b-status-pill b2b-status-info">In Repair</span></td>
+                    <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 8px;font-size:0.75rem;">Track</a></td>
+                  </tr>
+                  <tr>
+                    <td><b class="text-danger">CLM-4920</b></td>
+                    <td>Nova 5G Enterprise</td>
+                    <td><span class="b2b-status-pill b2b-status-success">Resolved</span></td>
+                    <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 8px;font-size:0.75rem;">View</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ==================== TAB 6: SERVICE ORDERS ==================== -->
+      <div class="b2b-tab-pane" id="pane-serviceorders">
+        
+        <section class="b2b-kpi-grid">
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-volt"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="28">0</span><small> Orders</small></div>
+              <div class="b2b-kpi-label">Active Workorders</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-cyan"><i class="fa-solid fa-user-gear"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="16">0</span><small> Techs</small></div>
+              <div class="b2b-kpi-label">Certified Engineers</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-amber"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="42">0</span><small> Passed</small></div>
+              <div class="b2b-kpi-label">QA Completed Today</div>
+            </div>
+          </div>
+
+          <div class="b2b-kpi-card stat-card-hover">
+            <div class="b2b-kpi-icon-wrap b2b-kpi-icon-gold"><i class="fa-solid fa-truck-fast"></i></div>
+            <div class="b2b-kpi-content">
+              <div class="b2b-kpi-stat"><span class="stat-counter" data-target="2.4" data-suffix="h" data-decimals="1">0</span></div>
+              <div class="b2b-kpi-label">Avg Diagnostic Turnaround</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Service Orders Pipeline Table -->
+        <section class="b2b-panel-card stat-card-hover">
+          <div class="b2b-panel-header">
+            <h4 class="b2b-panel-title">Salem Service Center Workorders</h4>
+            <a href="404.html" class="b2b-btn-action"><i class="fa-solid fa-plus me-1"></i> New Service Order</a>
+          </div>
+
+          <div class="b2b-table-wrap">
+            <table class="b2b-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Hardware Service</th>
+                  <th>Client</th>
+                  <th>Technician</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b class="text-danger">SO-8921</b></td>
+                  <td>Motherboard Reflow &amp; Diagnostic</td>
+                  <td>Apex Studio Inc.</td>
+                  <td>Elias Ward</td>
+                  <td><span class="b2b-status-pill b2b-status-info">In Workshop</span></td>
+                  <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">View Order</a></td>
+                </tr>
+                <tr>
+                  <td><b class="text-danger">SO-8920</b></td>
+                  <td>OLED Screen Calibration</td>
+                  <td>Horizon Corp</td>
+                  <td>Mira Chen</td>
+                  <td><span class="b2b-status-pill b2b-status-success">Quality Passed</span></td>
+                  <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">View Order</a></td>
+                </tr>
+                <tr>
+                  <td><b class="text-danger">SO-8919</b></td>
+                  <td>ANC Mic Array Realignment</td>
+                  <td>Vortex Media</td>
+                  <td>Theo Alvarez</td>
+                  <td><span class="b2b-status-pill b2b-status-success">Dispatched</span></td>
+                  <td><a href="404.html" class="b2b-btn-ghost" style="padding:4px 10px;font-size:0.75rem;">View Order</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ==================== TAB 7: MY REQUESTS ==================== -->
+      <div class="b2b-tab-pane" id="pane-requests">
+        <section class="b2b-panel-card stat-card-hover">
+          <div class="b2b-panel-header">
+            <h4 class="b2b-panel-title">Pending B2B Wholesale Requests</h4>
+            <a href="404.html" class="b2b-btn-action">Create New Request</a>
+          </div>
+          <p class="text-muted">You have 36 wholesale &amp; partner procurement requests currently being processed by the Stackly Enterprise Desk.</p>
+          <div class="mt-3">
+            <a href="404.html" class="b2b-btn-action">Go to Request Center &rarr;</a>
+          </div>
+        </section>
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Workstation Tab Titles
+  const TAB_TITLES = {
+    dashboard: 'Employee Workstation',
+    electronics: 'Electronics Workstation',
+    smartgear: 'Wholesale & Bulk Orders',
+    inventory: 'Warehouse Stock',
+    warranties: 'Commercial Warranties',
+    serviceorders: 'Priority Dispatch',
+    requests: 'My Requests Workstation'
+  };
+
+  // Numerical Counter Animation Engine
+  function animateCounters(container) {
+    const parent = container || document;
+    const counters = parent.querySelectorAll('.stat-counter');
+    counters.forEach(c => {
+      const target = parseFloat(c.dataset.target || 0);
+      const prefix = c.dataset.prefix || '';
+      const suffix = c.dataset.suffix || '';
+      const decimals = c.dataset.decimals ? parseInt(c.dataset.decimals) : 0;
+      const duration = 1000;
+      const startTime = performance.now();
+
+      function update(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const current = ease * target;
+
+        let formatted = current.toLocaleString('en-US', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+        c.textContent = prefix + formatted + suffix;
+
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    });
+  }
+
+
+  // Dynamic sync for fixed topbar height to ensure starting content is never hidden on any device
+  function syncB2BTopbarOffset() {
+    const topbar = document.querySelector('.b2b-topbar');
+    const canvas = document.querySelector('.b2b-canvas');
+    if (topbar && canvas) {
+      const h = topbar.offsetHeight;
+      if (h > 0) {
+        document.documentElement.style.setProperty('--b2b-topbar-h', `${h}px`);
+        const extra = window.innerWidth <= 576 ? 18 : 24;
+        canvas.style.paddingTop = `${h + extra}px`;
+      }
+    }
+  }
+
+  // Workstation Tab Switcher
+  function switchB2BTab(tabKey) {
+    if (!tabKey) return;
+    const targetPane = document.getElementById(`pane-${tabKey}`);
+    if (!targetPane) {
+      const dash = document.getElementById('pane-dashboard');
+      if (dash) dash.classList.add('active');
+      return;
+    }
+
+    const navLinks = document.querySelectorAll('.b2b-nav-link[data-tab-nav]');
+    const tabPanes = document.querySelectorAll('.b2b-tab-pane');
+    const headerTitle = document.getElementById('b2bHeaderTitle');
+
+    // Update active nav link
+    navLinks.forEach(link => {
+      if (link.getAttribute('data-tab-nav') === tabKey) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    // Toggle panes
+    tabPanes.forEach(pane => {
+      pane.classList.remove('active');
+    });
+
+    targetPane.classList.add('active');
+
+    // Update workstation title
+    if (headerTitle && typeof TAB_TITLES !== 'undefined' && TAB_TITLES[tabKey]) {
+      headerTitle.textContent = TAB_TITLES[tabKey];
+    }
+
+    // Keep URL in sync
+    try {
+      history.replaceState(null, '', `#${tabKey}`);
+    } catch (e) {}
+
+    // Animate stats
+    if (typeof animateCounters === 'function') {
+      animateCounters(targetPane);
+    }
+
+    // Scroll to the true top of page so all starting contents & KPI cards are completely visible
+    syncB2BTopbarOffset();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Expose globally for inline fallbacks
+  window.switchB2BTab = switchB2BTab;
+
+  // Global Event Delegation for Tab Switching
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('.b2b-nav-link[data-tab-nav]');
+    if (link) {
+      e.preventDefault();
+      const tabKey = link.getAttribute('data-tab-nav');
+      if (tabKey) {
+        switchB2BTab(tabKey);
+      }
+    }
+  });
+
+  // URL Hash Synchronizer
+  function checkInitialHash() {
+    const rawHash = (location.hash || '').replace('#', '').toLowerCase();
+    if (rawHash && document.getElementById(`pane-${rawHash}`)) {
+      switchB2BTab(rawHash);
+      window.scrollTo(0, 0);
+    } else {
+      const activePane = document.querySelector('.b2b-tab-pane.active') || document.getElementById('pane-dashboard');
+      if (activePane) {
+        if (typeof animateCounters === 'function') {
+          animateCounters(activePane);
+        }
+        if (activePane.id) {
+          const key = activePane.id.replace('pane-', '');
+          document.querySelectorAll('.b2b-nav-link[data-tab-nav]').forEach(l => l.classList.toggle('active', l.getAttribute('data-tab-nav') === key));
+          const headerTitle = document.getElementById('b2bHeaderTitle');
+          if (headerTitle && typeof TAB_TITLES !== 'undefined' && TAB_TITLES[key]) {
+            headerTitle.textContent = TAB_TITLES[key];
+          }
+        }
+      }
+      window.scrollTo(0, 0);
+    }
+  }
+  window.addEventListener('hashchange', checkInitialHash);
+
+  // Mobile drawer navigation controller
+  function initB2BMobileMenu() {
+    const toggle = document.getElementById('b2bMobileToggle');
+    const sidebar = document.getElementById('b2bSidebar');
+    const overlay = document.getElementById('b2bOverlay');
+    if (!toggle || !sidebar) return;
+
+    document.querySelectorAll('.b2b-nav-link[data-tab-nav]').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 992) {
+          sidebar.classList.remove('open');
+          if (overlay) overlay.classList.remove('active');
+        }
+      });
+    });
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('active');
+    });
+
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 992) {
+        sidebar.classList.remove('open');
+        if (overlay) overlay.classList.remove('active');
+      }
+    }, { passive: true });
+  }
+
+  // Initialize Workstation
+  function initB2BWorkstation() {
+    if ('scrollRestoration' in history) {
+      try { history.scrollRestoration = 'manual'; } catch (e) {}
+    }
+    window.scrollTo(0, 0);
+    checkInitialHash();
+    initB2BMobileMenu();
+    syncB2BTopbarOffset();
+    window.addEventListener('resize', syncB2BTopbarOffset, { passive: true });
+    window.addEventListener('orientationchange', syncB2BTopbarOffset);
+    const topbarEl = document.querySelector('.b2b-topbar');
+    if (topbarEl && window.ResizeObserver) {
+      new ResizeObserver(() => syncB2BTopbarOffset()).observe(topbarEl);
+    }
+
+    // Dynamic User & Role badge from localStorage
+    let user = null;
+    try {
+      user = JSON.parse(localStorage.getItem('stacklyUser'));
+    } catch(e) {}
+
+    const storedEmail = localStorage.getItem('stackly_email') || (user && user.email) || 'brittoj346@gmail.com';
+    const userNameEl = document.getElementById('b2bUserName');
+    const userRoleEl = document.getElementById('b2bUserRole');
+
+    if (userNameEl) {
+      let displayName = (user && user.name) || (storedEmail ? storedEmail.split('@')[0] : 'brittoj346');
+      userNameEl.textContent = displayName;
+    }
+    if (userRoleEl) {
+      userRoleEl.textContent = 'Business Partner';
+    }
+
+    // Hover re-trigger for stat cards
+    document.querySelectorAll('.stat-card-hover').forEach(card => {
+      let timer;
+      card.addEventListener('mouseenter', () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          const cardCounters = card.querySelectorAll('.stat-counter');
+          if (cardCounters.length && typeof animateCounters === 'function') {
+            animateCounters(card);
+          }
+        }, 60);
+      });
+    });
+
+    // Theme toggle interaction
+    const themeBtn = document.getElementById('themeToggleBtn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const canvas = document.querySelector('.b2b-canvas');
+        if (canvas) {
+          canvas.classList.toggle('dark-mode');
+        }
+      });
+    }
+
+    // Logout handling
+    const logoutBtn = document.getElementById('b2bLogoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function() {
+        try {
+          const u = JSON.parse(localStorage.getItem('stacklyUser') || '{}');
+          u.loggedIn = false;
+          localStorage.setItem('stacklyUser', JSON.stringify(u));
+        } catch(err) {}
+      });
+    }
+
+    // Stable navbar on scroll handler
+    const b2bTopbar = document.querySelector('.b2b-topbar');
+    if (b2bTopbar) {
+      window.addEventListener('scroll', function() {
+        b2bTopbar.classList.toggle('scrolled', window.scrollY > 15);
+      }, { passive: true });
+    }
+  }
+
+  // Trigger init immediately or on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initB2BWorkstation);
+  } else {
+    initB2BWorkstation();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Stackly Electronics</title>
+<meta name="description" content="Shop the full Stackly range: audio, smartphones, laptops, cameras and gaming gear, all tested by our in-house experts.">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stackly.css">
+</head>
+<body>
+
+<div id="preloader">
+  <div class="pl-mark"><img src="logo_green.webp" alt="Stackly" class="pl-logo"></div>
+  <div class="pl-pct" id="plPct">0%</div>
+  <div class="pl-bar"><i id="plBar"></i></div>
+</div>
+
+<div class="cursor-ring" id="cRing"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="toast-s" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+<button class="to-top" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-stackly" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand brand-mark" href="index.html"><img src="logo_green.webp" alt="Stackly" class="brand-logo"></a>
+    <div class="d-flex align-items-center gap-2 order-lg-3">
+      <div class="cart-btn d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-label="Open cart"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count cartCount">0</span></div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly active" href="shop.html" aria-current="page">Shop</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="services.html">Services &amp; Partners</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="nav-btn line">Login</a>
+        <a href="signup.html" class="nav-btn solid">Register</a>
+        <div class="cart-btn d-none d-lg-flex" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-label="Open cart"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count cartCount">0</span></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section class="page-head">
+    <div class="head-blob"></div>
+    <div class="container">
+      <div class="chip"><i class="dot"></i> Shop</div>
+      <h1>Every device,<br>tested by experts.</h1>
+      <p class="muted mt-3">Browse the full Stackly range — flagship audio, phones, laptops, cameras and gaming gear, each one chosen and checked by our in-house team.</p>
+    </div>
+  </section>
+
+  <section class="section-pad" id="shop">
+    <div class="container">
+      <div class="row align-items-end g-4 mb-5">
+        <div class="col-lg-6">
+          <div class="chip mb-3"><i class="dot"></i> All products</div>
+          <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">Best-selling<br>gear this week</h2>
+        </div>
+        <div class="col-lg-6">
+          <div class="filters justify-content-lg-end reveal-up" id="filters">
+            <button class="filter-btn active" data-f="all">All</button>
+            <button class="filter-btn" data-f="Audio">Audio</button>
+            <button class="filter-btn" data-f="Mobile">Mobile</button>
+            <button class="filter-btn" data-f="Computing">Computing</button>
+            <button class="filter-btn" data-f="Gaming">Gaming</button>
+            <button class="filter-btn" data-f="Cameras">Cameras</button>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4" id="productGrid"></div>
+    </div>
+  </section>
+  <section class="content-pad" id="categories">
+    <div class="container">
+      <div class="row align-items-end g-4 mb-5">
+        <div class="col-lg-7">
+          <div class="chip mb-3"><i class="dot"></i> Browse by category</div>
+          <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">Start with<br>what you love</h2>
+        </div>
+        <div class="col-lg-5">
+          <p class="muted reveal-up mb-0">Six aisles of carefully chosen tech, each one tested by our in-house experts before it reaches the shelf.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6 svc-anim"><a href="404.html" class="cat-tile"><img src="assets/images/cat-01-smartphones.webp" alt="Smartphones category" loading="lazy"><div class="ct-body"><div><h4>Smartphones</h4><span>124 products</span></div><span class="ct-ic"><i class="fa-solid fa-arrow-right"></i></span></div></a></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><a href="404.html" class="cat-tile"><img src="assets/images/cat-02-laptops.webp" alt="Laptops category" loading="lazy"><div class="ct-body"><div><h4>Laptops</h4><span>86 products</span></div><span class="ct-ic"><i class="fa-solid fa-arrow-right"></i></span></div></a></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><a href="404.html" class="cat-tile"><img src="assets/images/cat-03-audio.webp" alt="Audio category" loading="lazy"><div class="ct-body"><div><h4>Audio</h4><span>142 products</span></div><span class="ct-ic"><i class="fa-solid fa-arrow-right"></i></span></div></a></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><a href="404.html" class="cat-tile"><img src="assets/images/cat-04-cameras.webp" alt="Cameras category" loading="lazy"><div class="ct-body"><div><h4>Cameras</h4><span>58 products</span></div><span class="ct-ic"><i class="fa-solid fa-arrow-right"></i></span></div></a></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><a href="404.html" class="cat-tile"><img src="assets/images/cat-05-gaming.webp" alt="Gaming category" loading="lazy"><div class="ct-body"><div><h4>Gaming</h4><span>97 products</span></div><span class="ct-ic"><i class="fa-solid fa-arrow-right"></i></span></div></a></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><a href="404.html" class="cat-tile"><img src="assets/images/cat-06-smarthome.webp" alt="Smart home category" loading="lazy"><div class="ct-body"><div><h4>Smart Home</h4><span>73 products</span></div><span class="ct-ic"><i class="fa-solid fa-arrow-right"></i></span></div></a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-pad" style="padding-top:0;">
+    <div class="container">
+      <div class="spotlight reveal-up">
+        <div class="row g-0 align-items-stretch">
+          <div class="col-lg-6">
+            <div class="sp-media"><img src="assets/images/showcase-desk-setup.webp" alt="Work-from-anywhere desk setup" loading="lazy"></div>
+          </div>
+          <div class="col-lg-6">
+            <div class="sp-body">
+              <div class="chip"><i class="dot"></i> Curated bundle</div>
+              <h3>The work-from-anywhere kit.</h3>
+              <p>Everything you need to set up a calm, capable workspace — chosen to work together, not just look good on a spec sheet.</p>
+              <ul class="sp-list">
+                <li><i class="fa-solid fa-check"></i><span>Featherlight 14" laptop with all-day battery</span></li>
+                <li><i class="fa-solid fa-check"></i><span>Noise-cancelling headphones for calls and focus</span></li>
+                <li><i class="fa-solid fa-check"></i><span>Compact mechanical keyboard and travel mouse</span></li>
+                <li><i class="fa-solid fa-check"></i><span>One year of expert setup and support included</span></li>
+              </ul>
+              <div class="d-flex flex-wrap gap-3 align-items-center">
+                <a href="404.html" class="btn-volt magnetic">Shop the kit <i class="fa-solid fa-arrow-right"></i></a>
+                <span class="mono" style="font-size:.74rem;color:var(--grey);">Save $180 when bundled</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-pad" style="padding-top:0;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="chip mb-3"><i class="dot"></i> The Stackly difference</div>
+        <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">Buying tech should<br>feel this easy</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 svc-anim"><div class="value-card"><div class="vc-ic"><i class="fa-solid fa-vial-circle-check"></i></div><h4>Tested before it ships</h4><p>Every unit is opened, charged and checked by a specialist. If it would not pass our bench test, it does not reach your door.</p></div></div>
+        <div class="col-lg-4 svc-anim"><div class="value-card"><div class="vc-ic"><i class="fa-solid fa-tag"></i></div><h4>Honest pricing</h4><p>No fake countdowns or invented RRPs. When we say a price is good, it is because we have compared the market ourselves.</p></div></div>
+        <div class="col-lg-4 svc-anim"><div class="value-card"><div class="vc-ic"><i class="fa-solid fa-headset"></i></div><h4>Advice after the sale</h4><p>Our support team uses the same products. Call, chat or walk in and talk to someone who can actually solve the problem.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-5">
+    <div class="container">
+      <div class="cta-band reveal-up">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <h2>Not sure which device<br>is right for you?</h2>
+            <p>Tell us how you work, play or travel and we will shortlist three options at different budgets — no pressure, no upsell.</p>
+          </div>
+          <div class="col-lg-4">
+            <div class="cta-actions justify-content-lg-end">
+              <a href="404.html" class="btn-volt magnetic">Ask an expert <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="brand-mark"><img src="logo_green.webp" alt="Stackly" class="brand-logo"></div>
+        <p style="color:#a9acb3;font-size:.92rem;line-height:1.8;margin-top:18px;max-width:340px;">A premium electronics store with real experts, honest pricing and service that lasts as long as your devices do.</p>
+        <div class="fsocial mt-4"><a href="404.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="404.html" aria-label="X Twitter"><i class="fa-brands fa-x-twitter"></i></a><a href="404.html" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a><a href="404.html" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
+      </div>
+      <div class="col-6 col-lg-2"><h6>Explore</h6><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="services.html">Services &amp; Partners</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="col-6 col-lg-2"><h6>Support</h6><ul><li><a href="404.html">Product Warranty</a></li><li><a href="404.html">Repair Services</a></li><li><a href="404.html">Shipping &amp; Delivery</a></li><li><a href="404.html">Returns &amp; Refunds</a></li><li><a href="404.html">Technical Support</a></li><li><a href="404.html">FAQs</a></li></ul></div>
+      <div class="col-lg-4"><h6>Drop alerts</h6><p style="color:#a9acb3;font-size:.92rem;">First access to deals and launches. No spam, ever.</p><form class="nl" novalidate><input type="email" placeholder="Your email" required><button class="btn-volt border-0" style="padding:12px 20px;">Join</button></form></div>
+    </div>
+    <div class="footer-big" id="footerBig">stackly<span>.</span></div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2"><div>© 2026 Stackly Electronics. All rights reserved.</div><div><a href="404.html" class="me-3">Privacy</a><a href="404.html">Terms</a></div></div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="offcanvas offcanvas-end offcanvas-cart" tabindex="-1" id="cartDrawer">
+  <div class="offcanvas-header" style="border-bottom:1px solid var(--line);">
+    <h5 class="m-0" style="font-size:1.1rem;">Your bag <span class="muted mono" style="font-size:.8rem;">(<span class="cartCount">0</span>)</span></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div id="cartItems" class="flex-grow-1"></div>
+    <div style="border-top:1px solid var(--line);padding-top:18px;">
+      <div class="d-flex justify-content-between mb-3"><span class="muted">Subtotal</span><b class="display" id="cartTotal">$0</b></div>
+      <button class="btn-ink w-100 justify-content-center border-0" id="checkoutBtn">Checkout <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="assets/js/stackly.js"></script>
+<script>
+  const nlForms = document.querySelectorAll('.nl');
+  nlForms.forEach(form => {
+    const inp = form.querySelector('input[type="email"]');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!inp) return;
+      const val = inp.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.com$/i.test(val)) {
+        alert('Please enter a valid email with .com');
+        return;
+      }
+      window.location.href = '404.html';
+    });
+  });
+</script>
+</body>
+</html>

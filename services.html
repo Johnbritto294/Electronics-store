@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services &amp; Partners — Stackly Electronics</title>
+<meta name="description" content="Delivery, warranty, repairs, trade-in, setup and 24/7 support from Stackly — plus the official brand partners we work with.">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stackly.css">
+</head>
+<body>
+
+<div id="preloader">
+  <div class="pl-mark"><img src="logo_green.webp" alt="Stackly" class="pl-logo"></div>
+  <div class="pl-pct" id="plPct">0%</div>
+  <div class="pl-bar"><i id="plBar"></i></div>
+</div>
+
+<div class="cursor-ring" id="cRing"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="toast-s" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+<button class="to-top" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-stackly" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand brand-mark" href="index.html"><img src="logo_green.webp" alt="Stackly" class="brand-logo"></a>
+    <div class="d-flex align-items-center gap-2 order-lg-3">
+      <div class="cart-btn d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-label="Open cart"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count cartCount">0</span></div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly active" href="services.html" aria-current="page">Services &amp; Partners</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="nav-btn line">Login</a>
+        <a href="signup.html" class="nav-btn solid">Register</a>
+        <div class="cart-btn d-none d-lg-flex" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-label="Open cart"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count cartCount">0</span></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section class="page-head">
+    <div class="head-blob"></div>
+    <div class="container">
+      <div class="chip"><i class="dot"></i> Services &amp; Partners</div>
+      <h1>More than a store —<br>a tech partner for life.</h1>
+      <p class="muted mt-3">From same-day delivery to expert setup and long-term care, every Stackly purchase comes with people who actually know the product.</p>
+    </div>
+  </section>
+
+  <section class="section-pad" id="services">
+    <div class="container">
+      <div class="row g-4 mb-5 align-items-end">
+        <div class="col-lg-7">
+          <div class="chip mb-3"><i class="dot"></i> Services</div>
+          <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">Everything after<br>the checkout</h2>
+        </div>
+        <div class="col-lg-5"><p class="muted reveal-up">Buying the device is only the start. We deliver it, set it up, keep it running and stay on the line when you need us.</p></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6 svc-anim"><div class="svc-card"><div class="svc-img"><img src="assets/images/service-delivery.webp" alt="Express delivery" loading="lazy"><div class="svc-ic"><i class="fa-solid fa-truck-fast"></i></div></div><div class="svc-body"><h5>Free express delivery</h5><p>Same-day in major cities, tracked door to door, on every order over $99.</p></div></div></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><div class="svc-card"><div class="svc-img"><img src="assets/images/service-repairs.webp" alt="Repairs and warranty" loading="lazy"><div class="svc-ic"><i class="fa-solid fa-shield-halved"></i></div></div><div class="svc-body"><h5>2-year warranty &amp; repairs</h5><p>Certified technicians, genuine parts and loan devices while yours is in the workshop.</p></div></div></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><div class="svc-card"><div class="svc-img"><img src="assets/images/service-tradein.webp" alt="Trade-in programme" loading="lazy"><div class="svc-ic"><i class="fa-solid fa-recycle"></i></div></div><div class="svc-body"><h5>Trade-in &amp; recycle</h5><p>Get instant credit for your old devices — we handle secure wiping and responsible recycling.</p></div></div></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><div class="svc-card"><div class="svc-img"><img src="assets/images/service-expert-setup.webp" alt="Expert setup" loading="lazy"><div class="svc-ic"><i class="fa-solid fa-screwdriver-wrench"></i></div></div><div class="svc-body"><h5>Expert setup at home</h5><p>We mount, connect and configure — from smart homes to full home-theatre rigs.</p></div></div></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><div class="svc-card"><div class="svc-img"><img src="assets/images/team-work.webp" alt="Tech support team" loading="lazy"><div class="svc-ic"><i class="fa-solid fa-headset"></i></div></div><div class="svc-body"><h5>24/7 human tech support</h5><p>Real specialists by chat, phone or video — no scripts, no endless hold music.</p></div></div></div>
+        <div class="col-lg-4 col-md-6 svc-anim"><div class="svc-card"><div class="svc-img"><img src="assets/images/service-financing.webp" alt="Flexible financing" loading="lazy"><div class="svc-ic"><i class="fa-solid fa-credit-card"></i></div></div><div class="svc-body"><h5>0% flexible financing</h5><p>Split flagship purchases into 12 easy payments with instant approval at checkout.</p></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark section-pad" id="partners" style="padding-top:100px;padding-bottom:100px;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="chip mb-3"><i class="dot"></i> Official partners</div>
+        <h2 style="font-size:clamp(1.8rem,3.6vw,2.8rem);" class="reveal-up">Brands that trust Stackly</h2>
+      </div>
+      <div class="row g-3 g-md-4">
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>AURALUX</b><small>Audio partner</small></div></div>
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>NOVATEK</b><small>Mobile partner</small></div></div>
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>PIXELFORGE</b><small>Imaging partner</small></div></div>
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>VOLTA</b><small>Power partner</small></div></div>
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>ZENITH LABS</b><small>Computing partner</small></div></div>
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>KINETIQ</b><small>Wearables partner</small></div></div>
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>ORBITAL</b><small>Gaming partner</small></div></div>
+        <div class="col-6 col-md-3 partner-anim"><div class="partner-tile"><b>HALOWAVE</b><small>Smart-home partner</small></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="content-pad">
+    <div class="container">
+      <div class="spotlight reveal-up">
+        <div class="row g-0 align-items-stretch">
+          <div class="col-lg-6">
+            <div class="sp-media"><img src="assets/images/service-technician.webp" alt="Stackly technician repairing a device" loading="lazy"></div>
+          </div>
+          <div class="col-lg-6">
+            <div class="sp-body">
+              <div class="chip"><i class="dot"></i> Inside the workshop</div>
+              <h3>Repairs handled by people who care about the details.</h3>
+              <p>Our bench technicians work on the same flagship devices we sell. No mystery couriers, no swapped parts and no vague timelines — just a clear diagnosis and a fix that lasts.</p>
+              <ul class="sp-list">
+                <li><i class="fa-solid fa-check"></i><span>Free diagnostic on every repair, in store or by post</span></li>
+                <li><i class="fa-solid fa-check"></i><span>Genuine parts and a 12-month repair guarantee</span></li>
+                <li><i class="fa-solid fa-check"></i><span>Loan devices available for longer repairs</span></li>
+              </ul>
+              <a href="404.html" class="btn-volt magnetic">Book a repair <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-pad" style="padding-top:0;">
+    <div class="container">
+      <div class="row align-items-end g-4 mb-5">
+        <div class="col-lg-7">
+          <div class="chip mb-3"><i class="dot"></i> How it works</div>
+          <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">From hello<br>to handled</h2>
+        </div>
+        <div class="col-lg-5"><p class="muted reveal-up mb-0">One team, one thread, from your first question to the final follow-up call.</p></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6 svc-anim"><div class="step-card"><div class="st-num">01</div><h4>Tell us what is going on</h4><p>Message, call or drop in. We ask the right questions before quoting anything.</p></div></div>
+        <div class="col-lg-3 col-md-6 svc-anim"><div class="step-card"><div class="st-num">02</div><h4>Get a clear plan</h4><p>You receive a fixed price, a realistic timeline and the options that fit your budget.</p></div></div>
+        <div class="col-lg-3 col-md-6 svc-anim"><div class="step-card"><div class="st-num">03</div><h4>We do the work</h4><p>Delivery, setup, repair or trade-in — handled by our own team, never outsourced.</p></div></div>
+        <div class="col-lg-3 col-md-6 svc-anim"><div class="step-card"><div class="st-num">04</div><h4>We check back in</h4><p>A real follow-up call to make sure everything works the way it should.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-pad" style="padding-top:0;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="chip mb-3"><i class="dot"></i> Our promise</div>
+        <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">Service without<br>the small print</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 svc-anim"><div class="value-card"><div class="vc-ic"><i class="fa-solid fa-clock"></i></div><h4>Same-day where we can</h4><p>Orders before 2pm in major cities arrive the same day. If traffic or weather gets in the way, we tell you before you have to ask.</p></div></div>
+        <div class="col-lg-4 svc-anim"><div class="value-card"><div class="vc-ic"><i class="fa-solid fa-shield-halved"></i></div><h4>No surprise charges</h4><p>Quotes are fixed and approved by you first. If we find something extra during a repair, we stop and check before touching it.</p></div></div>
+        <div class="col-lg-4 svc-anim"><div class="value-card"><div class="vc-ic"><i class="fa-solid fa-leaf"></i></div><h4>Responsible by default</h4><p>Packaging is recycled, old devices are wiped securely and trade-ins are refurbished or recycled through certified partners.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-pad" style="padding-top:0;">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-5">
+          <div class="chip mb-3"><i class="dot"></i> Questions</div>
+          <h2 style="font-size:clamp(1.9rem,4vw,3rem);" class="reveal-up">Before you<br>ask us</h2>
+          <p class="muted mt-3 mb-4" style="line-height:1.75;">A few things people want to know before booking a service. Still unsure? Our team is one message away.</p>
+          <a href="404.html" class="btn-ghost magnetic">Talk to support <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="col-lg-7">
+          <div class="accordion faq-s" id="serviceFaq">
+            <div class="accordion-item">
+              <h3 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sf1">Do you repair devices you did not sell?</button></h3>
+              <div id="sf1" class="accordion-collapse collapse show" data-bs-parent="#serviceFaq"><div class="accordion-body">Yes. We repair most major brands regardless of where they were bought. Bring it in or send it to us and we will diagnose it free of charge.</div></div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sf2">How long does a typical repair take?</button></h3>
+              <div id="sf2" class="accordion-collapse collapse" data-bs-parent="#serviceFaq"><div class="accordion-body">Most screen, battery and port repairs are completed within 24–48 hours. We will confirm the timeline before you leave the device with us.</div></div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sf3">Can someone set up my device at home?</button></h3>
+              <div id="sf3" class="accordion-collapse collapse" data-bs-parent="#serviceFaq"><div class="accordion-body">Absolutely. Home setup is available for TVs, smart homes, home offices and full audio systems. Pricing depends on the job, and we quote before booking.</div></div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sf4">What happens to my old device on trade-in?</button></h3>
+              <div id="sf4" class="accordion-collapse collapse" data-bs-parent="#serviceFaq"><div class="accordion-body">We wipe it securely, then refurbish or recycle it through certified partners. You get instant credit and a record of the trade-in for your files.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-5">
+    <div class="container">
+      <div class="cta-band reveal-up">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <h2>Need a hand with<br>something today?</h2>
+            <p>Repairs, setup, trade-in or just a second opinion — tell us what you need and we will point you in the right direction.</p>
+          </div>
+          <div class="col-lg-4">
+            <div class="cta-actions justify-content-lg-end">
+              <a href="404.html" class="btn-volt magnetic">Contact the team <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="brand-mark"><img src="logo_green.webp" alt="Stackly" class="brand-logo"></div>
+        <p style="color:#a9acb3;font-size:.92rem;line-height:1.8;margin-top:18px;max-width:340px;">A premium electronics store with real experts, honest pricing and service that lasts as long as your devices do.</p>
+        <div class="fsocial mt-4"><a href="404.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="404.html" aria-label="X Twitter"><i class="fa-brands fa-x-twitter"></i></a><a href="404.html" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a><a href="404.html" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
+      </div>
+      <div class="col-6 col-lg-2"><h6>Explore</h6><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="services.html">Services &amp; Partners</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="col-6 col-lg-2"><h6>Support</h6><ul><li><a href="404.html">Product Warranty</a></li><li><a href="404.html">Repair Services</a></li><li><a href="404.html">Shipping &amp; Delivery</a></li><li><a href="404.html">Returns &amp; Refunds</a></li><li><a href="404.html">Technical Support</a></li><li><a href="404.html">FAQs</a></li></ul></div>
+      <div class="col-lg-4"><h6>Drop alerts</h6><p style="color:#a9acb3;font-size:.92rem;">First access to deals and launches. No spam, ever.</p><form class="nl" novalidate><input type="email" placeholder="Your email" required><button class="btn-volt border-0" style="padding:12px 20px;">Join</button></form></div>
+    </div>
+    <div class="footer-big" id="footerBig">stackly<span>.</span></div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2"><div>© 2026 Stackly Electronics. All rights reserved.</div><div><a href="404.html" class="me-3">Privacy</a><a href="404.html">Terms</a></div></div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="offcanvas offcanvas-end offcanvas-cart" tabindex="-1" id="cartDrawer">
+  <div class="offcanvas-header" style="border-bottom:1px solid var(--line);">
+    <h5 class="m-0" style="font-size:1.1rem;">Your bag <span class="muted mono" style="font-size:.8rem;">(<span class="cartCount">0</span>)</span></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div id="cartItems" class="flex-grow-1"></div>
+    <div style="border-top:1px solid var(--line);padding-top:18px;">
+      <div class="d-flex justify-content-between mb-3"><span class="muted">Subtotal</span><b class="display" id="cartTotal">$0</b></div>
+      <button class="btn-ink w-100 justify-content-center border-0" id="checkoutBtn">Checkout <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="assets/js/stackly.js"></script>
+<script>
+  const nlForms = document.querySelectorAll('.nl');
+  nlForms.forEach(form => {
+    const inp = form.querySelector('input[type="email"]');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!inp) return;
+      const val = inp.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.com$/i.test(val)) {
+        alert('Please enter a valid email with .com');
+        return;
+      }
+      window.location.href = '404.html';
+    });
+  });
+</script>
+</body>
+</html>

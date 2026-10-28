@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit Dashboard — Stackly</title>
+<meta name="description" content="Stackly cockpit dashboard with real-time analytics, user distribution, and device metrics.">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/stackly.css">
+</head>
+<body class="dash-body">
+
+<div class="toast-s" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+
+<div class="dash-app" id="dashApp">
+  <div class="dash-overlay" id="dashOverlay"></div>
+  
+  <!-- LEFT SIDEBAR -->
+  <aside class="dash-sidebar" id="dashSidebar">
+    
+    <!-- Brand Header with Official Website Stackly Logo -->
+    <a href="index.html" class="sidebar-brand" title="Go to Stackly Home" style="justify-content:center;padding:16px 0;text-decoration:none;border-bottom:1px solid rgba(243,242,238,.07);">
+      <div class="sidebar-logo-badge" style="width:auto;height:auto;padding:10px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(212,255,46,0.28);border-radius:14px;box-shadow:0 4px 20px rgba(212,255,46,0.18);display:inline-flex;align-items:center;justify-content:center;transition:transform .2s ease;">
+        <img src="logo_volt_white.webp" alt="Stackly" class="brand-logo" style="height:32px;width:auto;display:block;filter:drop-shadow(0 0 6px rgba(212,255,46,0.35));">
+      </div>
+    </a>
+
+    <!-- Navigation Section 1: Cockpit Core -->
+    <div class="sidebar-section-title">Navigation</div>
+    <ul class="side-nav-list">
+      <li class="side-nav-item">
+        <a href="#dashboard" class="side-nav-link active" data-tab-nav="dashboard">
+          <i class="fa-solid fa-table-columns"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="side-nav-item">
+        <a href="#electronics" class="side-nav-link" data-tab-nav="electronics">
+          <i class="fa-solid fa-microchip"></i>
+          <span>Electronics</span>
+        </a>
+      </li>
+      <li class="side-nav-item">
+        <a href="#smartgear" class="side-nav-link" data-tab-nav="smartgear">
+          <i class="fa-solid fa-wifi"></i>
+          <span>Smart Gear</span>
+        </a>
+      </li>
+      <li class="side-nav-item">
+        <a href="#inventory" class="side-nav-link" data-tab-nav="inventory">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>Inventory</span>
+        </a>
+      </li>
+      <li class="side-nav-item">
+        <a href="#warranties" class="side-nav-link" data-tab-nav="warranties">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Warranties</span>
+        </a>
+      </li>
+      <li class="side-nav-item">
+        <a href="#serviceorders" class="side-nav-link" data-tab-nav="serviceorders">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Service Orders</span>
+        </a>
+      </li>
+    </ul>
+
+
+
+    <!-- Sidebar Footer with Logout -->
+    <div class="sidebar-footer">
+      <a href="login.html" class="sidebar-logout-btn" id="sidebarLogoutBtn" style="text-decoration:none;justify-content:center;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span>Sign Out</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- MAIN CANVAS -->
+  <main class="dash-main">
+    
+    <!-- TOPBAR -->
+    <div class="dash-topbar">
+      <div class="dash-top-left">
+        <button class="dash-mobile-toggle" id="dashMobileToggle" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="index.html" class="dash-mobile-logo" aria-label="Stackly Home">
+          <img src="logo_volt_white.webp" alt="Stackly">
+        </a>
+        <div class="dash-top-title">
+          <h2 id="topbarTitle">Dashboard</h2>
+          <div class="live-pill" id="livePill">
+            <span class="pulse-dot"></span>
+            <span id="livePillText">Live activity, 4.8%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-top-actions">
+        <!-- User Email Display -->
+        <div class="user-email-display" style="display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:10px;flex-wrap:wrap;max-width:100%;">
+          <i class="fa-solid fa-user" style="color:var(--volt);"></i>
+          <span style="color:#f3f2ee;font-weight:600;word-break:break-word;" id="topbarEmail">brittoj346</span>
+          <span style="color:#6d7283;">|</span>
+          <span style="color:#a9acb3;" id="topbarRole">Customer</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB PANE 1: DASHBOARD (EXECUTIVE COCKPIT) ==================== -->
+    <section class="dash-tab-pane active" id="pane-dashboard">
+      
+      <!-- ROW 1: 4 TOP KPI CARDS -->
+      <div class="kpi-grid">
+        
+        <!-- Card 1 -->
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <div class="kpi-title-wrap">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span id="kpi1Title">Total Gear Spend</span>
+            </div>
+            <span class="kpi-badge up" id="kpi1Badge">+ 12.5%</span>
+          </div>
+          <div class="kpi-body">
+            <div style="min-width:0;flex:1;">
+              <div class="kpi-value stat-counter" id="kpi1Val" data-target="14850" data-prefix="$">0</div>
+              <div class="kpi-sub" id="kpi1Sub">from last month</div>
+            </div>
+            <div class="kpi-sparkline">
+              <span style="height:12px;"></span>
+              <span style="height:18px;"></span>
+              <span style="height:14px;"></span>
+              <span style="height:24px;"></span>
+              <span style="height:32px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <div class="kpi-title-wrap">
+              <i class="fa-solid fa-users"></i>
+              <span id="kpi2Title">Active Users</span>
+            </div>
+            <span class="kpi-badge up" id="kpi2Badge">+ 6.2%</span>
+          </div>
+          <div class="kpi-body">
+            <div style="min-width:0;flex:1;">
+              <div class="kpi-value stat-counter" id="kpi2Val" data-target="24689">0</div>
+              <div class="kpi-sub" id="kpi2Sub">from last week</div>
+            </div>
+            <div class="kpi-sparkline">
+              <span style="height:10px;"></span>
+              <span style="height:16px;"></span>
+              <span style="height:22px;"></span>
+              <span style="height:18px;"></span>
+              <span style="height:28px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <div class="kpi-title-wrap">
+              <i class="fa-solid fa-box-archive"></i>
+              <span id="kpi3Title">Orders</span>
+            </div>
+            <span class="kpi-badge down" id="kpi3Badge">- 2.1%</span>
+          </div>
+          <div class="kpi-body">
+            <div style="min-width:0;flex:1;">
+              <div class="kpi-value stat-counter" id="kpi3Val" data-target="1847">0</div>
+              <div class="kpi-sub" id="kpi3Sub">from yesterday</div>
+            </div>
+            <div class="kpi-sparkline">
+              <span style="height:22px;"></span>
+              <span style="height:26px;"></span>
+              <span style="height:18px;"></span>
+              <span style="height:15px;"></span>
+              <span style="height:12px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <div class="kpi-title-wrap">
+              <i class="fa-solid fa-bullseye"></i>
+              <span id="kpi4Title">Conversion Rate</span>
+            </div>
+            <span class="kpi-badge up" id="kpi4Badge">+ 0.3%</span>
+          </div>
+          <div class="kpi-body">
+            <div style="min-width:0;flex:1;">
+              <div class="kpi-value stat-counter" id="kpi4Val" data-target="3.47" data-suffix="%" data-decimals="2">0%</div>
+              <div class="kpi-sub" id="kpi4Sub">from last month</div>
+            </div>
+            <div class="kpi-sparkline">
+              <span style="height:14px;"></span>
+              <span style="height:20px;"></span>
+              <span style="height:25px;"></span>
+              <span style="height:22px;"></span>
+              <span style="height:30px;"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: MIDDLE ANALYTICS (REAL-TIME BAR CHART + DEVICE BREAKDOWN) -->
+      <div class="dash-grid-mid">
+        
+        <!-- Left: Real-time Analytics Bar Chart -->
+        <div class="dash-box stat-card-hover">
+          <div class="dash-box-header">
+            <h3 class="dash-box-title" id="barChartTitle">Real-time Analytics</h3>
+            <span class="dash-box-pill"><i class="fa-regular fa-clock me-1"></i> In Last 30 days</span>
+          </div>
+
+          <div class="bar-chart-wrap" id="barChartContainer">
+            <!-- Background Grid Lines -->
+            <div class="bar-chart-grid">
+              <div class="bar-grid-line"><span>100k</span></div>
+              <div class="bar-grid-line"><span>80k</span></div>
+              <div class="bar-grid-line"><span>60k</span></div>
+              <div class="bar-grid-line"><span>40k</span></div>
+              <div class="bar-grid-line"><span>20k</span></div>
+              <div class="bar-grid-line"><span>0k</span></div>
+            </div>
+
+            <!-- Vertical Bar Columns with Stacked Segments -->
+            <div class="bar-columns">
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              
+              <!-- Focused Peak Column with Floating Tooltip (Website Volt Glow) -->
+              <div class="bar-col active-col">
+                <div class="bar-tooltip">
+                  <div style="font-weight:700;margin-bottom:2px;color:var(--volt);">Wed 18 Sep</div>
+                  <div style="color:#fff;font-family:'Space Mono',monospace;">14.1k Sessions</div>
+                  <div style="color:var(--volt);font-size:.62rem;">• 99.4% Uptime peak</div>
+                </div>
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                  <div class="bar-segment"></div>
+                </div>
+              </div>
+
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill-stack">
+                  <div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div><div class="bar-segment"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Footer -->
+          <div class="chart-bottom-summary">
+            <div>
+              <div class="c-sum-num stat-counter" id="sumMetric1" data-target="47829">0</div>
+              <div class="c-sum-label"><span>6 - 20 Sep</span> · Sessions <b class="text-danger">↓ 24%</b></div>
+            </div>
+            <div>
+              <div class="c-sum-num stat-counter" id="sumMetric2" data-target="186247">0</div>
+              <div class="c-sum-label"><span>21 Sep - 5 Oct</span> · Page Views <b style="color:var(--volt);">↑ 37%</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Device Analytics -->
+        <div class="dash-box stat-card-hover">
+          <div class="dash-box-header">
+            <h3 class="dash-box-title" id="deviceBoxTitle">Device Analytics</h3>
+          </div>
+
+          <div class="device-total-val" id="deviceTotalVal">
+            +<span class="stat-counter" data-target="3650">0</span> <span>net new sessions</span>
+          </div>
+
+          <!-- Progress Bars (Themed with Website Palette) -->
+          <div class="device-bar-item">
+            <div class="device-bar-label">
+              <span class="d-name" id="d1Name">Desktop</span>
+              <span class="d-pct pos" id="d1Pct">+ 45.8%</span>
+            </div>
+            <div class="prog-track">
+              <div class="prog-fill prog-volt" style="width:72%;"></div>
+            </div>
+          </div>
+
+          <div class="device-bar-item">
+            <div class="device-bar-label">
+              <span class="d-name" id="d2Name">Mobile</span>
+              <span class="d-pct pos" id="d2Pct">+ 38.7%</span>
+            </div>
+            <div class="prog-track">
+              <div class="prog-fill prog-emerald" style="width:58%;"></div>
+            </div>
+          </div>
+
+          <div class="device-bar-item">
+            <div class="device-bar-label">
+              <span class="d-name" id="d3Name">Tablet</span>
+              <span class="d-pct neg" id="d3Pct">- 11.3%</span>
+            </div>
+            <div class="prog-track">
+              <div class="prog-fill prog-cyan" style="width:34%;"></div>
+            </div>
+          </div>
+
+          <div class="device-bar-item mb-0">
+            <div class="device-bar-label">
+              <span class="d-name" id="d4Name">Watch &amp; Audio</span>
+              <span class="d-pct pos" id="d4Pct">+ 15.5%</span>
+            </div>
+            <div class="prog-track">
+              <div class="prog-fill prog-porcelain" style="width:42%;"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 3: BOTTOM ROW (DOTTED DISTRIBUTION MAP + REVENUE AREA CHART) -->
+      <div class="dash-grid-bot">
+        
+        <!-- Left: Global User Distribution Map -->
+        <div class="dash-box stat-card-hover">
+          <div class="dash-box-header">
+            <h3 class="dash-box-title" id="mapTitle">Global User Distribution</h3>
+            <button type="button" class="top-icon-btn" style="width:28px;height:28px;font-size:.7rem;" title="Expand map"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+          </div>
+
+          <!-- SVG Dotted World Map Graphic with Volt Curves -->
+          <div class="map-visual-wrap">
+            <svg viewBox="0 0 520 220" width="100%" height="100%" style="overflow:visible;">
+              <defs>
+                <pattern id="dotPattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.3" fill="rgba(243,242,238,0.08)"></circle>
+                </pattern>
+                <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#d4ff2e" stop-opacity="0.9"></stop>
+                  <stop offset="100%" stop-color="#10b981" stop-opacity="0.9"></stop>
+                </linearGradient>
+              </defs>
+
+              <!-- Continents Dot Matrix Shapes -->
+              <rect width="520" height="220" fill="url(#dotPattern)"></rect>
+
+              <!-- Connecting Flight/Dispatch Arcs -->
+              <path d="M 120 95 Q 220 20 290 85" fill="none" stroke="url(#routeGrad)" stroke-width="1.5" stroke-dasharray="4,4"></path>
+              <path d="M 290 85 Q 350 40 410 115" fill="none" stroke="url(#routeGrad)" stroke-width="1.5" stroke-dasharray="4,4"></path>
+              <path d="M 120 95 Q 160 160 290 85" fill="none" stroke="rgba(212,255,46,0.25)" stroke-width="1"></path>
+            </svg>
+
+            <!-- Glowing Hub Pins -->
+            <div class="map-hub-pin pin-volt" style="left:23%;top:43%;" title="USA Logistics Hub"></div>
+            <div class="map-hub-pin pin-emerald" style="left:56%;top:38%;" title="Europe Salem Hub"></div>
+            <div class="map-hub-pin pin-volt" style="left:79%;top:52%;" title="Asia Tech Center"></div>
+          </div>
+
+          <!-- Map Metrics Legend -->
+          <div class="map-stats-footer">
+            <div class="map-stat-col">
+              <span id="mapLoc1Label">USA</span>
+              <b id="mapLoc1Val"><span class="stat-counter" data-target="24.5" data-suffix="K" data-decimals="1">0K</span></b>
+            </div>
+            <div class="map-stat-col">
+              <span id="mapLoc2Label">Europe</span>
+              <b id="mapLoc2Val"><span class="stat-counter" data-target="18.2" data-suffix="K" data-decimals="1">0K</span></b>
+            </div>
+            <div class="map-stat-col">
+              <span id="mapLoc3Label"><i class="dot-tag" style="background:var(--volt);"></i> Asia</span>
+              <b id="mapLoc3Val"><span class="stat-counter" data-target="12.8" data-suffix="K" data-decimals="1">0K</span></b>
+            </div>
+            <div class="map-stat-col">
+              <span id="mapLoc4Label"><i class="dot-tag" style="background:#10b981;"></i> Others</span>
+              <b id="mapLoc4Val"><span class="stat-counter" data-target="8.9" data-suffix="K" data-decimals="1">0K</span></b>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Total Revenue & Spend Area Chart -->
+        <div class="dash-box stat-card-hover">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <!-- Top Metric Triple -->
+            <div class="rev-top-metrics">
+              <div class="rev-metric-item">
+                <span class="m-title"><i class="fa-solid fa-circle text-warning" style="font-size:.5rem;"></i> Total Revenue</span>
+                <div class="m-val" id="revVal"><span class="stat-counter" data-target="847290" data-prefix="$">0</span></div>
+              </div>
+              <div class="rev-metric-item">
+                <span class="m-title"><i class="fa-solid fa-circle" style="color:var(--volt);font-size:.5rem;"></i> Conversion Rate</span>
+                <div class="m-val" id="revConv"><span class="stat-counter" data-target="3.47" data-suffix="%" data-decimals="2">0%</span></div>
+              </div>
+              <div class="rev-metric-item">
+                <span class="m-title"><i class="fa-solid fa-circle" style="color:#10b981;font-size:.5rem;"></i> Active Users</span>
+                <div class="m-val" id="revUsers"><span class="stat-counter" data-target="24689">0</span></div>
+              </div>
+            </div>
+
+            <!-- Time Range Filter Pills -->
+            <div class="time-filter-pills" role="tablist">
+              <button type="button" class="time-btn" data-range="1H">1H</button>
+              <button type="button" class="time-btn active" data-range="24H">24H</button>
+              <button type="button" class="time-btn" data-range="7D">7D</button>
+              <button type="button" class="time-btn" data-range="1M">1M</button>
+              <button type="button" class="time-btn" data-range="ALL">ALL</button>
+            </div>
+          </div>
+
+          <!-- SVG Multi-Line Area Chart (Volt & Emerald Palette) -->
+          <div class="area-svg-wrap">
+            <svg viewBox="0 0 540 160" width="100%" height="100%" style="overflow:visible;" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="areaGradientVolt" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#d4ff2e" stop-opacity="0.35"></stop>
+                  <stop offset="100%" stop-color="#d4ff2e" stop-opacity="0.0"></stop>
+                </linearGradient>
+                <linearGradient id="areaGradientEmerald" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"></stop>
+                  <stop offset="100%" stop-color="#10b981" stop-opacity="0.0"></stop>
+                </linearGradient>
+              </defs>
+
+              <!-- Horizontal Guide Lines -->
+              <line x1="0" y1="30" x2="540" y2="30" stroke="rgba(243,242,238,0.05)" stroke-dasharray="3,3"></line>
+              <line x1="0" y1="70" x2="540" y2="70" stroke="rgba(243,242,238,0.05)" stroke-dasharray="3,3"></line>
+              <line x1="0" y1="110" x2="540" y2="110" stroke="rgba(243,242,238,0.05)" stroke-dasharray="3,3"></line>
+
+              <!-- Curve 1 (Volt Green Accent) -->
+              <path d="M 0 150 Q 80 140 160 120 T 320 85 T 460 40 L 540 30 L 540 160 L 0 160 Z" fill="url(#areaGradientVolt)"></path>
+              <path d="M 0 150 Q 80 140 160 120 T 320 85 T 460 40 L 540 30" fill="none" stroke="#d4ff2e" stroke-width="2.5"></path>
+
+              <!-- Curve 2 (Emerald Secondary) -->
+              <path d="M 0 155 Q 100 150 200 135 T 360 95 T 480 60 L 540 45 L 540 160 L 0 160 Z" fill="url(#areaGradientEmerald)"></path>
+              <path d="M 0 155 Q 100 150 200 135 T 360 95 T 480 60 L 540 45" fill="none" stroke="#10b981" stroke-width="2"></path>
+
+              <!-- Curve 3 (Porcelain Trend) -->
+              <path d="M 0 160 Q 90 155 180 145 T 340 110 T 470 75 L 540 60" fill="none" stroke="#f3f2ee" stroke-width="1.6" stroke-dasharray="2,2"></path>
+
+              <!-- Tooltip Line & Inspection Point -->
+              <line x1="470" y1="20" x2="470" y2="160" stroke="rgba(243,242,238,0.2)" stroke-width="1"></line>
+              <circle cx="470" cy="40" r="4.5" fill="#d4ff2e" stroke="#0f1012" stroke-width="2"></circle>
+              <circle cx="470" cy="60" r="4.5" fill="#10b981" stroke="#0f1012" stroke-width="2"></circle>
+            </svg>
+          </div>
+
+          <!-- Chart Footer Tags -->
+          <div class="chart-footer-tags">
+            <span>DISTRIBUTION: <b>USA, Europe, Asia</b></span>
+            <span>ANALYTICS: <b>Desktop 64%, Mobile 36%</b></span>
+            <span>SERVER: <b>Salem Node 01 (99.98% Uptime)</b></span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 2: ELECTRONICS ==================== -->
+    <section class="dash-tab-pane" id="pane-electronics">
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-mobile-screen"></i> Smartphones</span><span class="kpi-badge up">+12%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="842">0</div><div class="kpi-sub">SKUs Available</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">View Products</a></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-laptop"></i> Laptops</span><span class="kpi-badge up">+8%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="524">0</div><div class="kpi-sub">SKUs Available</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">View Products</a></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-headphones"></i> Audio Devices</span><span class="kpi-badge up">+15%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="712">0</div><div class="kpi-sub">SKUs Available</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">View Products</a></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-camera"></i> Cameras</span><span class="kpi-badge up">+6%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="286">0</div><div class="kpi-sub">SKUs Available</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">View Products</a></div>
+        </div>
+      </div>
+
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-cart-shopping"></i> Checkout Rate</span>
+            <span class="kpi-badge up">+ 4.5%</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="3.47" data-suffix="%" data-decimals="2">0%</div>
+              <div class="kpi-sub">add-to-cart to completed PO</div>
+            </div>
+            <div class="kpi-sparkline">
+              <span style="height:12px;"></span><span style="height:16px;"></span><span style="height:24px;"></span><span style="height:30px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-receipt"></i> Avg Order Value</span>
+            <span class="kpi-badge up">+ $12.30</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="142.50" data-prefix="$" data-decimals="2">0</div>
+              <div class="kpi-sub">per shopper checkout</div>
+            </div>
+            <div class="kpi-sparkline">
+              <span style="height:20px;"></span><span style="height:14px;"></span><span style="height:26px;"></span><span style="height:32px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-arrows-spin"></i> Cart Abandonment</span>
+            <span class="kpi-badge down">- 3.8%</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="21.4" data-suffix="%" data-decimals="1">0%</div>
+              <div class="kpi-sub">reduced by quick checkout</div>
+            </div>
+            <div class="kpi-sparkline">
+              <span style="height:28px;"></span><span style="height:22px;"></span><span style="height:18px;"></span><span style="height:14px;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Sales Breakdown & Traffic Channels Row -->
+      <div class="row g-4 mb-4">
+        
+        <!-- Category Breakdown -->
+        <div class="col-lg-6">
+          <div class="dash-box stat-card-hover h-100">
+            <div class="dash-box-header">
+              <h3 class="dash-box-title">Revenue by Tech Category</h3>
+              <span class="dash-box-pill"><i class="fa-solid fa-tags me-1"></i> Q3 Breakdown</span>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1" style="font-size:.8rem;">
+                <span class="text-white fw-bold">Audio &amp; Headphones (34%)</span>
+                <span class="mono" style="color:var(--volt);font-weight:700;"><span class="stat-counter" data-target="288420" data-prefix="$">0</span></span>
+              </div>
+              <div class="prog-track"><div class="prog-fill prog-volt" style="width:34%;"></div></div>
+            </div>
+
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1" style="font-size:.8rem;">
+                <span class="text-white fw-bold">Smartphones &amp; Mobile (28%)</span>
+                <span class="mono" style="color:#10b981;font-weight:700;"><span class="stat-counter" data-target="237180" data-prefix="$">0</span></span>
+              </div>
+              <div class="prog-track"><div class="prog-fill prog-emerald" style="width:28%;"></div></div>
+            </div>
+
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1" style="font-size:.8rem;">
+                <span class="text-white fw-bold">Computing &amp; Laptops (22%)</span>
+                <span class="mono" style="color:#38bdf8;font-weight:700;"><span class="stat-counter" data-target="186390" data-prefix="$">0</span></span>
+              </div>
+              <div class="prog-track"><div class="prog-fill prog-cyan" style="width:22%;"></div></div>
+            </div>
+
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1" style="font-size:.8rem;">
+                <span class="text-white fw-bold">Gaming &amp; Cameras (16%)</span>
+                <span class="mono" style="color:#f3f2ee;font-weight:700;"><span class="stat-counter" data-target="135300" data-prefix="$">0</span></span>
+              </div>
+              <div class="prog-track"><div class="prog-fill prog-porcelain" style="width:16%;"></div></div>
+            </div>
+
+            <div class="mt-3 pt-2">
+              <a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">Explore All Categories <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Traffic Channels -->
+        <div class="col-lg-6">
+          <div class="dash-box stat-card-hover h-100">
+            <div class="dash-box-header">
+              <h3 class="dash-box-title">Acquisition Channels</h3>
+              <span class="dash-box-pill">Live Traffic</span>
+            </div>
+            
+            <div class="channel-card mb-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><b class="text-white">Direct &amp; App</b><div class="text-muted" style="font-size:.68rem;">Returning shoppers</div></div>
+                <div class="mono" style="color:var(--volt);font-weight:700;"><span class="stat-counter" data-target="78220">0</span></div>
+              </div>
+            </div>
+
+            <div class="channel-card mb-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><b class="text-white">Organic Search</b><div class="text-muted" style="font-size:.68rem;">Google &amp; Tech queries</div></div>
+                <div class="mono" style="color:#10b981;font-weight:700;"><span class="stat-counter" data-target="57730">0</span></div>
+              </div>
+            </div>
+
+            <div class="channel-card mb-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><b class="text-white">Tech Review Press</b><div class="text-muted" style="font-size:.68rem;">YouTube &amp; Editorial links</div></div>
+                <div class="mono" style="color:#38bdf8;font-weight:700;"><span class="stat-counter" data-target="33520">0</span></div>
+              </div>
+            </div>
+
+            <div class="channel-card mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><b class="text-white">Drop Alerts &amp; Social</b><div class="text-muted" style="font-size:.68rem;">Exclusive VIP alerts</div></div>
+                <div class="mono" style="color:#f3f2ee;font-weight:700;"><span class="stat-counter" data-target="16770">0</span></div>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">View Channel Analytics <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Top Selling Products Table with Live Hover Glow -->
+      <div class="dash-box stat-card-hover mb-4">
+        <div class="dash-box-header">
+          <h3 class="dash-box-title">Top Selling Stackly Products</h3>
+          <span class="dash-box-pill">Live Sales Rankings</span>
+        </div>
+        <div class="dash-table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Units Sold</th>
+                <th>Gross Revenue</th>
+                <th>Stock Status</th>
+                <th>Conversion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Aura Max Wireless Headphones</b></td>
+                <td>Audio Flagship</td>
+                <td><span class="mono"><span class="stat-counter" data-target="1420">0</span></span></td>
+                <td><b style="color:var(--volt);"><span class="stat-counter" data-target="495580" data-prefix="$">0</span></b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-check"></i> In Stock (142)</span></td>
+                <td><span class="mono"><span class="stat-counter" data-target="4.8" data-suffix="%" data-decimals="1">0%</span></span></td>
+              </tr>
+              <tr>
+                <td><b>Nova X Pro 5G Smartphone</b></td>
+                <td>Mobile</td>
+                <td><span class="mono"><span class="stat-counter" data-target="840">0</span></span></td>
+                <td><b style="color:var(--volt);"><span class="stat-counter" data-target="755160" data-prefix="$">0</span></b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-check"></i> In Stock (86)</span></td>
+                <td><span class="mono"><span class="stat-counter" data-target="3.9" data-suffix="%" data-decimals="1">0%</span></span></td>
+              </tr>
+              <tr>
+                <td><b>Zenbook Air 14 Ultrabook</b></td>
+                <td>Computing</td>
+                <td><span class="mono"><span class="stat-counter" data-target="310">0</span></span></td>
+                <td><b style="color:var(--volt);"><span class="stat-counter" data-target="402690" data-prefix="$">0</span></b></td>
+                <td><span class="status-pill pending"><i class="fa-solid fa-triangle-exclamation"></i> Low (34)</span></td>
+                <td><span class="mono"><span class="stat-counter" data-target="3.1" data-suffix="%" data-decimals="1">0%</span></span></td>
+              </tr>
+              <tr>
+                <td><b>Pulse Buds ANC</b></td>
+                <td>Audio</td>
+                <td><span class="mono"><span class="stat-counter" data-target="1980">0</span></span></td>
+                <td><b style="color:var(--volt);"><span class="stat-counter" data-target="354420" data-prefix="$">0</span></b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-check"></i> In Stock (210)</span></td>
+                <td><span class="mono"><span class="stat-counter" data-target="5.2" data-suffix="%" data-decimals="1">0%</span></span></td>
+              </tr>
+              <tr>
+                <td><b>Orbit Watch S3 Titanium</b></td>
+                <td>Wearables</td>
+                <td><span class="mono"><span class="stat-counter" data-target="620">0</span></span></td>
+                <td><b style="color:var(--volt);"><span class="stat-counter" data-target="185380" data-prefix="$">0</span></b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-check"></i> In Stock (64)</span></td>
+                <td><span class="mono"><span class="stat-counter" data-target="2.8" data-suffix="%" data-decimals="1">0%</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 3: SMART GEAR ==================== -->
+    <section class="dash-tab-pane" id="pane-smartgear">
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-house-signal"></i> Smart Home</span><span class="kpi-badge up">+10%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="468">0</div><div class="kpi-sub">Devices</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">Manage Devices</a></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-watch-smart"></i> Wearables</span><span class="kpi-badge up">+14%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="392">0</div><div class="kpi-sub">Devices</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">Manage Devices</a></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-gamepad"></i> Gaming Gear</span><span class="kpi-badge up">+18%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="624">0</div><div class="kpi-sub">Devices</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">Manage Devices</a></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-robot"></i> AI Gadgets</span><span class="kpi-badge up">+22%</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="156">0</div><div class="kpi-sub">Devices</div></div></div>
+          <div class="p-2"><a href="404.html" class="btn-ghost btn-sm w-100 justify-content-center">Manage Devices</a></div>
+        </div>
+      </div>
+
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-envelope-open-text"></i> Drop Subscribers</span>
+            <span class="kpi-badge up">+ 2,420</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="34920">0</div>
+              <div class="kpi-sub">verified tech buyers</div>
+            </div>
+            <div class="kpi-sparkline"><span style="height:16px;"></span><span style="height:22px;"></span><span style="height:30px;"></span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-arrow-trend-up"></i> Campaign Revenue</span>
+            <span class="kpi-badge up">+ 32.4%</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="184650" data-prefix="$">0</div>
+              <div class="kpi-sub">attributed to drops</div>
+            </div>
+            <div class="kpi-sparkline"><span style="height:18px;"></span><span style="height:26px;"></span><span style="height:34px;"></span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-bolt"></i> Average ROI</span>
+            <span class="kpi-badge up">+ 0.6x</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="4.8" data-suffix="x" data-decimals="1">0x</div>
+              <div class="kpi-sub">return on ad spend</div>
+            </div>
+            <div class="kpi-sparkline"><span style="height:14px;"></span><span style="height:20px;"></span><span style="height:28px;"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campaign Detail Cards with Hover Effects -->
+      <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+          <div class="campaign-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="campaign-badge">Active Campaign</span>
+              <span class="mono text-muted" style="font-size:.7rem;">Ends in 14 days</span>
+            </div>
+            <h4 class="text-white mb-2" style="font-family:'Unbounded',sans-serif;font-size:1.1rem;">New Season Drop · Up to 40% Off</h4>
+            <p class="text-muted" style="font-size:.82rem;">Global flagship campaign running across Google, Tech Reviewers, and direct newsletter drops.</p>
+            <div class="d-flex gap-4 mt-3 pt-3 border-top border-secondary border-opacity-10">
+              <div><span class="text-muted d-block" style="font-size:.68rem;">SPEND</span><b class="text-white mono"><span class="stat-counter" data-target="12400" data-prefix="$">0</span></b></div>
+              <div><span class="text-muted d-block" style="font-size:.68rem;">REVENUE</span><b style="color:var(--volt);" class="mono"><span class="stat-counter" data-target="68200" data-prefix="$">0</span></b></div>
+              <div><span class="text-muted d-block" style="font-size:.68rem;">ROI</span><b class="text-white mono"><span class="stat-counter" data-target="5.5" data-suffix="x" data-decimals="1">0x</span></b></div>
+              <div><span class="text-muted d-block" style="font-size:.68rem;">ORDERS</span><b class="text-white mono"><span class="stat-counter" data-target="642">0</span></b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="campaign-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="campaign-badge">Volt Loyalty Club</span>
+              <span class="mono text-muted" style="font-size:.7rem;">Ongoing</span>
+            </div>
+            <h4 class="text-white mb-2" style="font-family:'Unbounded',sans-serif;font-size:1.1rem;">Volt Rewards 2x Points Multiplier</h4>
+            <p class="text-muted" style="font-size:.82rem;">Exclusive perk for registered Stackly members: 2x points on audio and computing accessories.</p>
+            <div class="d-flex gap-4 mt-3 pt-3 border-top border-secondary border-opacity-10">
+              <div><span class="text-muted d-block" style="font-size:.68rem;">MEMBERS</span><b class="text-white mono"><span class="stat-counter" data-target="24689">0</span></b></div>
+              <div><span class="text-muted d-block" style="font-size:.68rem;">POINTS</span><b style="color:var(--volt);" class="mono"><span class="stat-counter" data-target="2.45" data-suffix="M" data-decimals="2">0M</span></b></div>
+              <div><span class="text-muted d-block" style="font-size:.68rem;">CLAIMS</span><b class="text-white mono"><span class="stat-counter" data-target="4200">0</span></b></div>
+              <div><span class="text-muted d-block" style="font-size:.68rem;">RETENTION</span><b class="text-white mono"><span class="stat-counter" data-target="94.2" data-suffix="%" data-decimals="1">0%</span></b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Promo Codes with Click-to-Copy Hover -->
+      <div class="dash-box stat-card-hover">
+        <div class="dash-box-header">
+          <h3 class="dash-box-title">Active Discount &amp; Promo Codes</h3>
+          <span class="dash-box-pill">Stackly Partner Deals</span>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="promo-box" onclick="navigator.clipboard?.writeText('VOLT40'); toast('Copied code: VOLT40');">
+              <div class="d-flex justify-content-between mb-2"><span class="mono" style="color:var(--volt);font-weight:700;">VOLT40</span><span class="status-pill success">Active</span></div>
+              <div class="text-white fw-bold mb-1" style="font-size:.85rem;">40% Off New Season Gear</div>
+              <div class="text-muted" style="font-size:.74rem;">Usage: <span class="stat-counter" data-target="1842">0</span> / 2,000 max</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="promo-box" onclick="navigator.clipboard?.writeText('STACKLYB2B'); toast('Copied code: STACKLYB2B');">
+              <div class="d-flex justify-content-between mb-2"><span class="mono" style="color:var(--volt);font-weight:700;">STACKLYB2B</span><span class="status-pill success">Active</span></div>
+              <div class="text-white fw-bold mb-1" style="font-size:.85rem;">Corporate Net-30 Discount</div>
+              <div class="text-muted" style="font-size:.74rem;">Usage: <span class="stat-counter" data-target="148">0</span> Corporate accounts</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="promo-box" onclick="navigator.clipboard?.writeText('AUDIOPHILE'); toast('Copied code: AUDIOPHILE');">
+              <div class="d-flex justify-content-between mb-2"><span class="mono" style="color:var(--volt);font-weight:700;">AUDIOPHILE</span><span class="status-pill success">Active</span></div>
+              <div class="text-white fw-bold mb-1" style="font-size:.85rem;">Free DAC Cable with Aura Max</div>
+              <div class="text-muted" style="font-size:.74rem;">Usage: <span class="stat-counter" data-target="412">0</span> claims this week</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 4: FINANCE & PO ==================== -->
+    <section class="dash-tab-pane" id="pane-inventory">
+      
+      <!-- 4 Finance KPI Cards with Counters -->
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-vault"></i> Gross Revenue</span>
+            <span class="kpi-badge up">+ 14.8%</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="847290" data-prefix="$">0</div>
+              <div class="kpi-sub">processed Q3 YTD</div>
+            </div>
+            <div class="kpi-sparkline"><span style="height:12px;"></span><span style="height:20px;"></span><span style="height:32px;"></span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-file-invoice-dollar"></i> Net-30 Facility</span>
+            <span class="kpi-badge up">Available</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="250000" data-prefix="$">0</div>
+              <div class="kpi-sub">B2B line of credit balance</div>
+            </div>
+            <div class="kpi-sparkline"><span style="height:24px;"></span><span style="height:28px;"></span><span style="height:30px;"></span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-clock-rotate-left"></i> Outstanding POs</span>
+            <span class="kpi-badge down">Pending</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="42180" data-prefix="$">0</div>
+              <div class="kpi-sub">due in 12 days</div>
+            </div>
+            <div class="kpi-sparkline"><span style="height:30px;"></span><span style="height:24px;"></span><span style="height:16px;"></span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top">
+            <span class="kpi-title-wrap"><i class="fa-solid fa-stamp"></i> Tax Exemption</span>
+            <span class="kpi-badge up">Saved</span>
+          </div>
+          <div class="kpi-body">
+            <div>
+              <div class="kpi-value stat-counter" data-target="18420" data-prefix="$">0</div>
+              <div class="kpi-sub">GST &amp; VAT credit claimed</div>
+            </div>
+            <div class="kpi-sparkline"><span style="height:14px;"></span><span style="height:22px;"></span><span style="height:26px;"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purchase Orders & Invoices Table with Live Hover Effects -->
+      <div class="dash-box stat-card-hover">
+        <div class="dash-box-header">
+          <h3 class="dash-box-title">Purchase Orders &amp; Billing Invoices</h3>
+          <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> New PO</a>
+        </div>
+        <div class="dash-table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th>PO Number</th>
+                <th>Date</th>
+                <th>Order Description</th>
+                <th>Total Value</th>
+                <th>Payment Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b class="mono" style="color:var(--volt);">PO-9482</b></td>
+                <td>26 Oct 2026</td>
+                <td>50x Aura Max Wireless Headphones Batch</td>
+                <td><b class="mono text-white"><span class="stat-counter" data-target="18450" data-prefix="$">0</span>.00</b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-circle-check"></i> Paid (Stripe)</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;"><i class="fa-solid fa-file-pdf"></i> PDF</a></td>
+              </tr>
+              <tr>
+                <td><b class="mono" style="color:var(--volt);">PO-9481</b></td>
+                <td>24 Oct 2026</td>
+                <td>25x Nova X Pro Enterprise Fleet Units</td>
+                <td><b class="mono text-white"><span class="stat-counter" data-target="22475" data-prefix="$">0</span>.00</b></td>
+                <td><span class="status-pill pending"><i class="fa-solid fa-clock"></i> Net-30 Pending</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;"><i class="fa-solid fa-file-pdf"></i> PDF</a></td>
+              </tr>
+              <tr>
+                <td><b class="mono" style="color:var(--volt);">PO-9480</b></td>
+                <td>20 Oct 2026</td>
+                <td>10x Zenbook Air 14 Computing Suite</td>
+                <td><b class="mono text-white"><span class="stat-counter" data-target="12990" data-prefix="$">0</span>.00</b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-circle-check"></i> Paid (Wire)</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;"><i class="fa-solid fa-file-pdf"></i> PDF</a></td>
+              </tr>
+              <tr>
+                <td><b class="mono" style="color:var(--volt);">PO-9479</b></td>
+                <td>15 Oct 2026</td>
+                <td>20x Orbit Watch S3 Corporate Wellness</td>
+                <td><b class="mono text-white"><span class="stat-counter" data-target="6450" data-prefix="$">0</span>.00</b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-circle-check"></i> Paid (Corporate Card)</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;"><i class="fa-solid fa-file-pdf"></i> PDF</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 5: FLEET & INVENTORY GEAR ==================== -->
+    <section class="dash-tab-pane" id="pane-warranties">
+      
+      <!-- 4 Inventory KPI Cards with Counters -->
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-barcode"></i> Active SKUs</span><span class="kpi-badge up">100% OK</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="124">0</div><div class="kpi-sub">live catalog items</div></div><div class="kpi-sparkline"><span style="height:12px;"></span><span style="height:24px;"></span></div></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-warehouse"></i> Units in Stock</span><span class="kpi-badge up">Sufficient</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="3420">0</div><div class="kpi-sub">across Salem &amp; EU hubs</div></div><div class="kpi-sparkline"><span style="height:18px;"></span><span style="height:32px;"></span></div></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock Alerts</span><span class="kpi-badge down">Attention</span></div>
+          <div class="kpi-body"><div><div class="kpi-value text-warning stat-counter" data-target="2">0</div><div class="kpi-sub">reorder initiated</div></div><div class="kpi-sparkline"><span style="height:28px;"></span><span style="height:14px;"></span></div></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-truck-ramp-box"></i> RMA in Repair</span><span class="kpi-badge up">Bench</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="14">0</div><div class="kpi-sub">workshop bench testing</div></div><div class="kpi-sparkline"><span style="height:14px;"></span><span style="height:20px;"></span></div></div>
+        </div>
+      </div>
+
+      <!-- Fleet Diagnostic & Status Row -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="channel-card stat-card-hover">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="text-white fw-bold">Battery Integrity</span>
+              <span class="mono" style="color:var(--volt);font-weight:700;"><span class="stat-counter" data-target="99.4" data-suffix="%" data-decimals="1">0%</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill prog-volt" style="width:99%;"></div></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="channel-card stat-card-hover">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="text-white fw-bold">Firmware Compliance</span>
+              <span class="mono" style="color:#10b981;font-weight:700;"><span class="stat-counter" data-target="98.6" data-suffix="%" data-decimals="1">0%</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill prog-emerald" style="width:98%;"></div></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="channel-card stat-card-hover">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="text-white fw-bold">Avg Turnaround SLA</span>
+              <span class="mono" style="color:#38bdf8;font-weight:700;"><span class="stat-counter" data-target="24" data-suffix="h">0h</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill prog-cyan" style="width:90%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fleet Gear Inventory Table with Hover Glow -->
+      <div class="dash-box stat-card-hover">
+        <div class="dash-box-header">
+          <h3 class="dash-box-title">Stackly Device Inventory &amp; Hardware Status</h3>
+          <span class="dash-box-pill">All Devices Verified</span>
+        </div>
+        <div class="dash-table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th>Device Model</th>
+                <th>Category</th>
+                <th>SKU</th>
+                <th>Stock Units</th>
+                <th>Condition &amp; Health</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Aura Max Wireless Headphones</b></td>
+                <td>Audio</td>
+                <td><span class="mono">STK-AUR-MAX</span></td>
+                <td><b class="mono text-white"><span class="stat-counter" data-target="142">0</span> units</b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-circle"></i> Optimal (Firmware v3.2)</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;">Restock</a></td>
+              </tr>
+              <tr>
+                <td><b>Nova X Pro 5G Flagship</b></td>
+                <td>Mobile</td>
+                <td><span class="mono">STK-NOV-XPRO</span></td>
+                <td><b class="mono text-white"><span class="stat-counter" data-target="86">0</span> units</b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-circle"></i> Battery 100% Certified</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;">Restock</a></td>
+              </tr>
+              <tr>
+                <td><b>Zenbook Air 14 Ultrabook</b></td>
+                <td>Computing</td>
+                <td><span class="mono">STK-ZEN-AIR14</span></td>
+                <td><b class="mono text-warning"><span class="stat-counter" data-target="34">0</span> units</b></td>
+                <td><span class="status-pill pending"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock Warning</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;">Fast Reorder</a></td>
+              </tr>
+              <tr>
+                <td><b>Orbit Watch S3 Titanium</b></td>
+                <td>Wearables</td>
+                <td><span class="mono">STK-ORB-W3</span></td>
+                <td><b class="mono text-white"><span class="stat-counter" data-target="64">0</span> units</b></td>
+                <td><span class="status-pill success"><i class="fa-solid fa-circle"></i> Cellular Ready</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;">Restock</a></td>
+              </tr>
+              <tr>
+                <td><b>Frame Mirrorless Camera 4K</b></td>
+                <td>Cameras</td>
+                <td><span class="mono">STK-FRM-CAM</span></td>
+                <td><b class="mono text-danger"><span class="stat-counter" data-target="18">0</span> units</b></td>
+                <td><span class="status-pill danger"><i class="fa-solid fa-circle-exclamation"></i> Critical Stock</span></td>
+                <td><a href="404.html" class="btn-volt-sm text-decoration-none" style="padding:4px 8px;font-size:.68rem;">Fast Reorder</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 6: STORE CATALOG (QUICK ORDER) ==================== -->
+    <section class="dash-tab-pane" id="pane-serviceorders">
+      
+      <!-- 4 Store KPI Summary Cards with Counters -->
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-boxes-stacked"></i> Catalog Models</span><span class="kpi-badge up">Available</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="12">0</div><div class="kpi-sub">flagship hardware lines</div></div><div class="kpi-sparkline"><span style="height:12px;"></span><span style="height:24px;"></span></div></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-cubes-stacked"></i> In-Stock Ready</span><span class="kpi-badge up">Instant Pick</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="1842">0</div><div class="kpi-sub">units ready to dispatch</div></div><div class="kpi-sparkline"><span style="height:18px;"></span><span style="height:28px;"></span></div></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-truck-fast"></i> Delivery SLA</span><span class="kpi-badge up">Guaranteed</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="24" data-suffix="h">0h</div><div class="kpi-sub">express door-to-door</div></div><div class="kpi-sparkline"><span style="height:14px;"></span><span style="height:30px;"></span></div></div>
+        </div>
+        <div class="kpi-card stat-card-hover">
+          <div class="kpi-top"><span class="kpi-title-wrap"><i class="fa-solid fa-star"></i> Buyer Rating</span><span class="kpi-badge up">5.0 Star</span></div>
+          <div class="kpi-body"><div><div class="kpi-value stat-counter" data-target="4.9" data-suffix=" / 5" data-decimals="1">0</div><div class="kpi-sub">from 1,840+ reviews</div></div><div class="kpi-sparkline"><span style="height:20px;"></span><span style="height:32px;"></span></div></div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <h3 class="text-white mb-1" style="font-family:'Unbounded',sans-serif;font-size:1.25rem;">Stackly Flagship Catalog</h3>
+          <p class="text-muted mb-0" style="font-size:.82rem;">Direct dispatch from Salem distribution node with guaranteed 24-hour delivery.</p>
+        </div>
+        <a href="404.html" class="btn-primary-action"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Full Shop</a>
+      </div>
+
+      <!-- 8-Product Grid with Enhanced Hover Animations -->
+      <div class="gear-grid">
+        
+        <!-- Product 1 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-01-aura-headphones.webp" alt="Aura Max Wireless Headphones" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Aura Max Headphones</h4>
+            <div class="gear-spec">40mm titanium drivers · ANC · 40h battery</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$349</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-02-nova-smartphone.webp" alt="Nova X Pro Smartphone" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Nova X Pro 5G</h4>
+            <div class="gear-spec">120Hz LTPO OLED · 200MP Triple Camera</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$899</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-03-zenbook-laptop.webp" alt="Zenbook Air 14 Laptop" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Zenbook Air 14</h4>
+            <div class="gear-spec">M3 Pro chip · 32GB RAM · 18h battery</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$1,299</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-04-pulse-buds.webp" alt="Pulse Buds ANC" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Pulse Buds ANC</h4>
+            <div class="gear-spec">Spatial audio · Wireless charging · IPX5</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$179</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-05-orbit-watch.webp" alt="Orbit Watch S3" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Orbit Watch S3</h4>
+            <div class="gear-spec">Titanium chassis · Sapphire glass · ECG</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$299</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-06-frame-camera.webp" alt="Frame Mirrorless Camera" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Frame Mirrorless 4K</h4>
+            <div class="gear-spec">48MP full-frame · Dual card slots · IBIS</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$1,499</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+        <!-- Product 7 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-09-keystone-keyboard.webp" alt="Keystone Keyboard" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Keystone Keyboard</h4>
+            <div class="gear-spec">Hot-swap mechanical switches · PBT keys</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$189</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+        <!-- Product 8 -->
+        <div class="gear-card">
+          <div class="gear-img-wrap">
+            <img src="assets/images/product-11-skyline-drone.webp" alt="Skyline Drone" loading="lazy">
+          </div>
+          <div>
+            <h4 class="gear-title">Skyline 4K Drone</h4>
+            <div class="gear-spec">3-axis gimbal · 42min flight · Omnidirectional</div>
+          </div>
+          <div class="gear-foot">
+            <div class="gear-price">$799</div>
+            <a href="404.html" class="btn-volt-sm text-decoration-none"><i class="fa-solid fa-plus"></i> Add to Bag</a>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 7: REPAIRS & RMA ==================== -->
+    <section class="dash-tab-pane" id="pane-repairs">
+      
+      <div class="row g-4 mb-4">
+        <div class="col-lg-7">
+          <div class="dash-box stat-card-hover h-100">
+            <div class="dash-box-header">
+              <h3 class="dash-box-title">Active Repair Pipeline</h3>
+              <span class="dash-box-pill"><i class="fa-solid fa-wrench me-1"></i> Workshop Live</span>
+            </div>
+            
+            <div class="pipeline-step">
+              <div class="pipeline-dot done"><i class="fa-solid fa-check"></i></div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between"><b class="text-white">Step 1: Diagnostics &amp; Inspection</b><span class="mono" style="color:var(--volt);font-size:.7rem;">COMPLETED</span></div>
+                <div class="text-muted" style="font-size:.72rem;">Bench tested by Theo Alvarez · Board integrity 100%</div>
+              </div>
+            </div>
+
+            <div class="pipeline-step">
+              <div class="pipeline-dot done"><i class="fa-solid fa-check"></i></div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between"><b class="text-white">Step 2: Component Replacement</b><span class="mono" style="color:var(--volt);font-size:.7rem;">COMPLETED</span></div>
+                <div class="text-muted" style="font-size:.72rem;">Genuine OEM battery &amp; USB-C ribbon flex installed</div>
+              </div>
+            </div>
+
+            <div class="pipeline-step">
+              <div class="pipeline-dot"><i class="fa-solid fa-spinner fa-spin"></i></div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between"><b class="text-white">Step 3: Quality Control &amp; Burn-in Test</b><span class="mono text-warning" style="font-size:.7rem;">IN PROGRESS</span></div>
+                <div class="text-muted" style="font-size:.72rem;">24-hour audio stress test and thermal profile check</div>
+              </div>
+            </div>
+
+            <div class="pipeline-step border-0">
+              <div class="pipeline-dot" style="opacity:.4;"><i class="fa-solid fa-truck"></i></div>
+              <div class="flex-grow-1" style="opacity:.5;">
+                <div class="d-flex justify-content-between"><b class="text-white">Step 4: Dispatch &amp; Return Courier</b><span class="mono" style="font-size:.7rem;">PENDING</span></div>
+                <div class="text-muted" style="font-size:.72rem;">Express dispatch via DHL tracking hub</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="dash-box stat-card-hover h-100">
+            <div class="dash-box-header">
+              <h3 class="dash-box-title">Claim Warranty / RMA</h3>
+            </div>
+            <p class="text-muted" style="font-size:.82rem;">Every Stackly product carries a 2-year manufacturer warranty with complimentary courier pickup.</p>
+            <div class="mb-3">
+              <label class="text-muted d-block mb-1" style="font-size:.72rem;">Device Serial Number</label>
+              <input type="text" class="form-control" placeholder="e.g. STK-84920-AUR" style="background:#191b22;border-color:rgba(243,242,238,.1);color:#fff;font-size:.82rem;">
+            </div>
+            <div class="mb-3">
+              <label class="text-muted d-block mb-1" style="font-size:.72rem;">Describe Issue</label>
+              <textarea class="form-control" rows="3" placeholder="Audio dropout, battery health, casing inspection..." style="background:#191b22;border-color:rgba(243,242,238,.1);color:#fff;font-size:.82rem;"></textarea>
+            </div>
+            <button type="button" class="btn-primary-action w-100 justify-content-center" id="submitRmaBtn"><i class="fa-solid fa-paper-plane"></i> Submit Diagnostic Ticket</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 8: COMPANY & TEAM ==================== -->
+    <section class="dash-tab-pane" id="pane-team">
+      
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <h3 class="text-white mb-1" style="font-family:'Unbounded',sans-serif;font-size:1.25rem;">Stackly Engineering &amp; Service Team</h3>
+          <p class="text-muted mb-0" style="font-size:.82rem;">Real engineers, honest repair technicians, and hardware specialists.</p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="gear-card text-center p-4">
+            <img src="assets/images/team-elias-ward.webp" alt="Elias Ward" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin:0 auto 14px;border:2px solid var(--volt);">
+            <h4 class="text-white mb-1" style="font-family:'Unbounded',sans-serif;font-size:1rem;">Elias Ward</h4>
+            <div class="mono" style="color:var(--volt);font-size:.74rem;margin-bottom:8px;">Founder &amp; Chief Engineer</div>
+            <p class="text-muted" style="font-size:.76rem;">15+ years in high-fidelity audio engineering and acoustic transducer architecture.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="gear-card text-center p-4">
+            <img src="assets/images/team-mira-chen.webp" alt="Mira Chen" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin:0 auto 14px;border:2px solid var(--volt);">
+            <h4 class="text-white mb-1" style="font-family:'Unbounded',sans-serif;font-size:1rem;">Mira Chen</h4>
+            <div class="mono" style="color:var(--volt);font-size:.74rem;margin-bottom:8px;">Head of Service &amp; Diagnostics</div>
+            <p class="text-muted" style="font-size:.76rem;">Oversees the Stackly Care workshop, component warranties, and corporate SLAs.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="gear-card text-center p-4">
+            <img src="assets/images/team-theo-alvarez.webp" alt="Theo Alvarez" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin:0 auto 14px;border:2px solid var(--volt);">
+            <h4 class="text-white mb-1" style="font-family:'Unbounded',sans-serif;font-size:1rem;">Theo Alvarez</h4>
+            <div class="mono" style="color:var(--volt);font-size:.74rem;margin-bottom:8px;">Workshop Lead Technician</div>
+            <p class="text-muted" style="font-size:.76rem;">Master micro-soldering specialist certified for flagship computing and mobile logic boards.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB PANE 9: HELPDESK 24/7 ==================== -->
+    <section class="dash-tab-pane" id="pane-helpdesk">
+      
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="dash-box stat-card-hover text-center p-4">
+            <div style="width:50px;height:50px;border-radius:50%;background:rgba(212,255,46,.12);color:var(--volt);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.25rem;">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <h4 class="text-white mb-2" style="font-family:'Unbounded',sans-serif;font-size:1rem;">Live Support Chat</h4>
+            <p class="text-muted mb-3" style="font-size:.78rem;">Average reply time is under 2 minutes with certified hardware specialists.</p>
+            <button type="button" class="btn-primary-action w-100 justify-content-center" id="startLiveChatBtn"><i class="fa-solid fa-headset"></i> Start Live Chat</button>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="dash-box stat-card-hover text-center p-4">
+            <div style="width:50px;height:50px;border-radius:50%;background:rgba(212,255,46,.12);color:var(--volt);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.25rem;">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <h4 class="text-white mb-2" style="font-family:'Unbounded',sans-serif;font-size:1rem;">VIP Direct Hotline</h4>
+            <p class="text-muted mb-3" style="font-size:.78rem;">24/7 dedicated telephone support for urgent enterprise hardware assistance.</p>
+            <a href="tel:+18005557825" class="btn-export w-100 justify-content-center"><i class="fa-solid fa-phone"></i> +1 (800) 555-STACK</a>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="dash-box stat-card-hover text-center p-4">
+            <div style="width:50px;height:50px;border-radius:50%;background:rgba(212,255,46,.12);color:var(--volt);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.25rem;">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <h4 class="text-white mb-2" style="font-family:'Unbounded',sans-serif;font-size:1rem;">Email Helpdesk</h4>
+            <p class="text-muted mb-3" style="font-size:.78rem;">Detailed diagnostics, schematic review, and batch PO requests.</p>
+            <a href="mailto:support@stackly.com" class="btn-export w-100 justify-content-center"><i class="fa-solid fa-paper-plane"></i> support@stackly.com</a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="assets/js/stackly.js"></script>
+</body>
+</html>

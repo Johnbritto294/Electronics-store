@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Stackly Electronics</title>
+<meta name="description" content="Sign in to your Stackly account to track orders, save favourites and get first access to new drops.">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stackly.css">
+</head>
+<body class="auth-page">
+
+<div id="preloader">
+  <div class="pl-mark"><img src="logo_green.webp" alt="Stackly" class="pl-logo"></div>
+  <div class="pl-pct" id="plPct">0%</div>
+  <div class="pl-bar"><i id="plBar"></i></div>
+</div>
+
+<div class="cursor-ring" id="cRing"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="toast-s" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+<button class="to-top" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<main>
+  <section class="section-pad d-flex align-items-center" id="login" style="min-height:100vh;padding:40px 0;">
+    <div class="container">
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-7">
+          <div class="auth-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <a href="index.html" class="auth-brand mb-0" aria-label="Stackly home"><img src="logo_green.webp" alt="Stackly" class="brand-logo"></a>
+              <a href="index.html" class="btn-ghost btn-sm"><i class="fa-solid fa-arrow-left me-1"></i> Back to Home</a>
+            </div>
+            
+            <!-- ROLE SELECTOR -->
+            <div class="role-toggle" id="loginRoleToggle" role="tablist">
+              <button type="button" class="role-btn active" data-role="customer" role="tab" aria-selected="true">
+                <i class="fa-solid fa-user"></i> Customer <span class="role-badge">Personal</span>
+              </button>
+              <button type="button" class="role-btn" data-role="business" role="tab" aria-selected="false">
+                <i class="fa-solid fa-briefcase"></i> Business Partner <span class="role-badge">B2B</span>
+              </button>
+            </div>
+
+            <div class="chip role-chip mb-2"><i class="dot"></i> <span id="loginRoleBadge">Customer Sign in</span></div>
+            <h2 id="loginTitle">Your account.<br>Your gear.</h2>
+            <p class="muted mb-4" id="loginSubtitle">Enter the personal email you used at checkout and your password.</p>
+
+            <form class="form-s authForm" data-auth="login" id="loginForm" novalidate>
+              <input type="hidden" name="role" id="loginRoleInput" value="customer">
+              
+              <div class="mb-3">
+                <label id="loginEmailLabel">Personal Email</label>
+                <input type="email" class="form-control" id="loginEmail" placeholder="you@email.com" required>
+              </div>
+              <div class="mb-3"><label>Password</label> <a href="404.html" class="auth-forgot float-end">Forgot password?</a><input type="password" class="form-control mt-1" id="loginPassword" placeholder="••••••••" required></div>
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="remember">
+                <label class="form-check-label" for="remember" style="font-family:'DM Sans',sans-serif;font-size:.88rem;letter-spacing:0;text-transform:none;">Keep me signed in &nbsp;|&nbsp; <a href="404.html" target="_blank">Terms</a> &nbsp;|&nbsp; <a href="404.html" target="_blank">Privacy Policy</a></label>
+              </div>
+              <button type="submit" class="btn-volt border-0 w-100 justify-content-center" id="loginSubmitBtn">Sign in as Customer <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+            <div class="auth-divider">
+              <span></span>
+              <span class="auth-divider-text">Or continue with</span>
+              <span></span>
+            </div>
+            <div class="auth-socials">
+              <a href="404.html" class="auth-social-btn" title="Continue with Google" aria-label="Google"><i class="fa-brands fa-google"></i></a>
+              <a href="404.html" class="auth-social-btn" title="Continue with Apple" aria-label="Apple"><i class="fa-brands fa-apple"></i></a>
+              <a href="404.html" class="auth-social-btn" title="Continue with Facebook" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="404.html" class="auth-social-btn" title="Continue with LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="404.html" class="auth-social-btn" title="Continue with X" aria-label="X Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="404.html" class="auth-social-btn" title="Continue with GitHub" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+            <p class="auth-alt mb-0" style="margin-top:16px;">New to Stackly? <a href="signup.html" id="signupLink">Create a customer account</a></p>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="auth-aside">
+            <div class="chip mb-4" style="background:transparent;border-color:var(--line-d);color:var(--porcelain);">
+              <i class="dot" style="background:var(--volt);"></i> <span id="asideBadge">Customer Benefits</span>
+            </div>
+            <h3 id="asideTitle">Your Stackly account,<br>in one place.</h3>
+            <ul class="auth-points" id="asideList">
+              <li><i class="fa-solid fa-box"></i><div><b style="color:var(--porcelain);">Track every order</b><br>Live delivery updates and full purchase history.</div></li>
+              <li><i class="fa-solid fa-heart"></i><div><b style="color:var(--porcelain);">Save favourites</b><br>Keep a wishlist across all your devices.</div></li>
+              <li><i class="fa-solid fa-bolt"></i><div><b style="color:var(--porcelain);">First access</b><br>Early looks at launches and member-only deals.</div></li>
+            </ul>
+            <div class="auth-aside-social mt-4 pt-3" style="border-top:1px solid rgba(255,255,255,0.1);position:relative;z-index:2;">
+              <div class="muted small mb-2" style="font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#858997;">Follow Stackly Drops</div>
+              <div class="fsocial m-0">
+                <a href="404.html" aria-label="Instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="404.html" aria-label="X Twitter" title="X Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="404.html" aria-label="YouTube" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="404.html" aria-label="TikTok" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AUTH FOOTER WITH SOCIALS -->
+        <div class="col-12">
+          <footer class="auth-footer text-center">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+              <div class="auth-footer-copy">
+                &copy; 2026 Stackly Electronics. All rights reserved.
+              </div>
+              <div class="auth-footer-links d-flex align-items-center gap-3">
+                <a href="404.html" class="text-decoration-none" style="color:#8e93a2;">Terms</a>
+                <span style="color:rgba(255,255,255,0.15);">|</span>
+                <a href="404.html" class="text-decoration-none" style="color:#8e93a2;">Privacy</a>
+                <span style="color:rgba(255,255,255,0.15);">|</span>
+                <a href="404.html" class="text-decoration-none" style="color:#8e93a2;">Help Center</a>
+              </div>
+              <div class="auth-footer-socials fsocial m-0">
+                <a href="404.html" aria-label="Instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="404.html" aria-label="X Twitter" title="X Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="404.html" aria-label="YouTube" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="404.html" aria-label="TikTok" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="404.html" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="404.html" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github"></i></a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- CART DRAWER -->
+<div class="offcanvas offcanvas-end offcanvas-cart" tabindex="-1" id="cartDrawer">
+  <div class="offcanvas-header" style="border-bottom:1px solid var(--line);">
+    <h5 class="m-0" style="font-size:1.1rem;">Your bag <span class="muted mono" style="font-size:.8rem;">(<span class="cartCount">0</span>)</span></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div id="cartItems" class="flex-grow-1"></div>
+    <div style="border-top:1px solid var(--line);padding-top:18px;">
+      <div class="d-flex justify-content-between mb-3"><span class="muted">Subtotal</span><b class="display" id="cartTotal">$0</b></div>
+      <button class="btn-ink w-100 justify-content-center border-0" id="checkoutBtn">Checkout <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="assets/js/stackly.js"></script>
+<script>
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pwd = document.getElementById('loginPassword').value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        alert('Enter valid email');
+        return;
+      }
+      if (pwd.length < 4) {
+        alert('Enter valid password');
+        return;
+      }
+      localStorage.setItem('stackly_email', email);
+      const roleInput = document.getElementById('loginRoleInput');
+      const role = (roleInput && roleInput.value) || 'customer';
+      window.location.href = role === 'business' ? 'b2b-dashboard.html' : 'dashboard.html';
+    });
+  }
+</script>
+</body>
+</html>

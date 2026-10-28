@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal — Stackly Electronics</title>
+<meta name="description" content="Guides, reviews and tech stories from the Stackly team — practical advice for choosing and living with your devices.">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stackly.css">
+</head>
+<body>
+
+<div id="preloader">
+  <div class="pl-mark"><img src="logo_green.webp" alt="Stackly" class="pl-logo"></div>
+  <div class="pl-pct" id="plPct">0%</div>
+  <div class="pl-bar"><i id="plBar"></i></div>
+</div>
+
+<div class="cursor-ring" id="cRing"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="toast-s" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+<button class="to-top" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-stackly" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand brand-mark" href="index.html"><img src="logo_green.webp" alt="Stackly" class="brand-logo"></a>
+    <div class="d-flex align-items-center gap-2 order-lg-3">
+      <div class="cart-btn d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-label="Open cart"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count cartCount">0</span></div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="services.html">Services &amp; Partners</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly active" href="blog.html" aria-current="page">Blog</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-stackly" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="nav-btn line">Login</a>
+        <a href="signup.html" class="nav-btn solid">Register</a>
+        <div class="cart-btn d-none d-lg-flex" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-label="Open cart"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count cartCount">0</span></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section class="page-head">
+    <div class="head-blob"></div>
+    <div class="container">
+      <div class="chip"><i class="dot"></i> The Stackly journal</div>
+      <h1>Guides, reviews<br>&amp; tech stories.</h1>
+      <p class="muted mt-3">No hype, no jargon — just practical advice from the people who test, sell and live with this gear every day.</p>
+    </div>
+  </section>
+
+  <section class="section-pad" id="blog">
+    <div class="container">
+      <div class="row align-items-end g-4 mb-5">
+        <div class="col-lg-7">
+          <div class="chip mb-3"><i class="dot"></i> Latest articles</div>
+          <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">Fresh from<br>the workshop</h2>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/blog-laptop-guide.webp" alt="Laptop buying guide" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Guide · 8 min read</div><h5>How to choose a laptop in 2026 without overspending</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/blog-retro-gaming.webp" alt="Retro gaming feature" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Feature · 6 min read</div><h5>Why retro gaming is having a premium comeback</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/product-11-skyline-drone.webp" alt="Drone photography review" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Review · 5 min read</div><h5>Aerial photography for beginners: our drone picks</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/cat-03-audio.webp" alt="Headphone buying guide" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Guide · 7 min read</div><h5>ANC headphones: what actually matters in 2026</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/cat-06-smarthome.webp" alt="Smart home setup" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Setup · 9 min read</div><h5>Build a smart home that works without an app degree</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/showcase-bundle-4k.webp" alt="Gaming display guide" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Guide · 6 min read</div><h5>4K vs high refresh: picking the right gaming display</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="content-pad" style="padding-top:0;">
+    <div class="container">
+      <div class="spotlight reveal-up">
+        <div class="row g-0 align-items-stretch">
+          <div class="col-lg-6">
+            <div class="sp-media"><img src="assets/images/blog-calm-office.webp" alt="A calm home office setup" loading="lazy"></div>
+          </div>
+          <div class="col-lg-6">
+            <div class="sp-body">
+              <div class="chip"><i class="dot"></i> Featured guide</div>
+              <h3>The 2026 home office, without the cable spaghetti.</h3>
+              <p>A practical walkthrough for building a workspace that stays tidy, fast and comfortable — even if you are renting, sharing a room or working from a kitchen table.</p>
+              <ul class="sp-list">
+                <li><i class="fa-solid fa-check"></i><span>How to choose a dock that actually fits your laptop</span></li>
+                <li><i class="fa-solid fa-check"></i><span>The one cable upgrade worth paying for</span></li>
+                <li><i class="fa-solid fa-check"></i><span>Lighting, sound and ergonomics on a realistic budget</span></li>
+              </ul>
+              <div class="d-flex flex-wrap gap-3 align-items-center">
+                <a href="404.html" class="btn-volt magnetic">Read the guide <i class="fa-solid fa-arrow-right"></i></a>
+                <span class="mono" style="font-size:.72rem;color:var(--grey);">12 min read</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-pad" style="padding-top:0;">
+    <div class="container">
+      <div class="row align-items-end g-4 mb-4">
+        <div class="col-lg-7">
+          <div class="chip mb-3"><i class="dot"></i> More from the journal</div>
+          <h2 style="font-size:clamp(1.9rem,4vw,3.2rem);" class="reveal-up">Worth your<br>coffee break</h2>
+        </div>
+        <div class="col-lg-5">
+          <div class="tag-list justify-content-lg-end reveal-up">
+            <span>Buying guides</span><span>Reviews</span><span>How-to</span><span>Opinion</span><span>Behind the bench</span>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/product-10-forge-laptop.webp" alt="Laptop battery health" loading="lazy"></div><div class="blog-body"><div class="blog-meta">How-to · 6 min read</div><h5>The truth about laptop battery health (and what actually helps)</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/product-08-halo-speaker.webp" alt="Smart speaker privacy settings" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Privacy · 5 min read</div><h5>Smart speakers: the privacy settings worth changing today</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+        <div class="col-lg-4 col-md-6 blog-anim"><div class="blog-card"><div class="blog-img"><img src="assets/images/product-02-nova-smartphone.webp" alt="Refurbished phone guide" loading="lazy"></div><div class="blog-body"><div class="blog-meta">Buying guide · 7 min read</div><h5>What to look for in a refurbished phone before you pay</h5><a href="404.html" class="blog-link">Read article <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-5">
+    <div class="container">
+      <div class="cta-band reveal-up">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <h2>Got a question<br>we should answer?</h2>
+            <p>Tell us what you are trying to figure out. The best guides usually start with a real customer question.</p>
+          </div>
+          <div class="col-lg-4">
+            <div class="cta-actions justify-content-lg-end">
+              <a href="404.html" class="btn-volt magnetic">Send it in <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="brand-mark"><img src="logo_green.webp" alt="Stackly" class="brand-logo"></div>
+        <p style="color:#a9acb3;font-size:.92rem;line-height:1.8;margin-top:18px;max-width:340px;">A premium electronics store with real experts, honest pricing and service that lasts as long as your devices do.</p>
+        <div class="fsocial mt-4"><a href="404.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="404.html" aria-label="X Twitter"><i class="fa-brands fa-x-twitter"></i></a><a href="404.html" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a><a href="404.html" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
+      </div>
+      <div class="col-6 col-lg-2"><h6>Explore</h6><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="services.html">Services &amp; Partners</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="col-6 col-lg-2"><h6>Support</h6><ul><li><a href="404.html">Product Warranty</a></li><li><a href="404.html">Repair Services</a></li><li><a href="404.html">Shipping &amp; Delivery</a></li><li><a href="404.html">Returns &amp; Refunds</a></li><li><a href="404.html">Technical Support</a></li><li><a href="404.html">FAQs</a></li></ul></div>
+      <div class="col-lg-4"><h6>Drop alerts</h6><p style="color:#a9acb3;font-size:.92rem;">First access to deals and launches. No spam, ever.</p><form class="nl" novalidate><input type="email" placeholder="Your email" required><button class="btn-volt border-0" style="padding:12px 20px;">Join</button></form></div>
+    </div>
+    <div class="footer-big" id="footerBig">stackly<span>.</span></div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2"><div>© 2026 Stackly Electronics. All rights reserved.</div><div><a href="404.html" class="me-3">Privacy</a><a href="404.html">Terms</a></div></div>
+  </div>
+</footer>
+
+<script>
+  const blogForm = document.getElementById('blogCtaForm');
+  if (blogForm) {
+    const blogEmail = document.getElementById('blogEmail');
+    blogForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const val = blogEmail.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.com$/i.test(val)) {
+        alert('Please enter a valid email with .com');
+        return;
+      }
+      window.location.href = '404.html';
+    });
+  }
+</script>
+
+<!-- CART DRAWER -->
+<div class="offcanvas offcanvas-end offcanvas-cart" tabindex="-1" id="cartDrawer">
+  <div class="offcanvas-header" style="border-bottom:1px solid var(--line);">
+    <h5 class="m-0" style="font-size:1.1rem;">Your bag <span class="muted mono" style="font-size:.8rem;">(<span class="cartCount">0</span>)</span></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div id="cartItems" class="flex-grow-1"></div>
+    <div style="border-top:1px solid var(--line);padding-top:18px;">
+      <div class="d-flex justify-content-between mb-3"><span class="muted">Subtotal</span><b class="display" id="cartTotal">$0</b></div>
+      <button class="btn-ink w-100 justify-content-center border-0" id="checkoutBtn">Checkout <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="assets/js/stackly.js"></script>
+<script>
+  const nlForms = document.querySelectorAll('.nl');
+  nlForms.forEach(form => {
+    const inp = form.querySelector('input[type="email"]');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!inp) return;
+      const val = inp.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.com$/i.test(val)) {
+        alert('Please enter a valid email with .com');
+        return;
+      }
+      window.location.href = '404.html';
+    });
+  });
+</script>
+</body>
+</html>
